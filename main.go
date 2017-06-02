@@ -1,7 +1,9 @@
 package main
 
-import "fmt"
+type settings struct {
+	seperator string
+}
 
 func main() {
-	fmt.Println("Hello World")
+
 }
