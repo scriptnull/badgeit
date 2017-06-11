@@ -2,4 +2,4 @@ language: go
 
 build:
   ci:
-    - echo "hello"
+    - go test github.com/scriptnull/badgeit/formatters
