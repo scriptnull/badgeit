@@ -35,33 +35,33 @@ func (contract *NpmBadgeContract) Badges() ([]common.Badge, error) {
 	var badges []common.Badge
 
 	if len(pj.Name) > 0 {
-		shieldBaseUrl := "https://img.shields.io/npm"
-		npmBaseUrl := "https://npmjs.com/package"
+		shieldBaseURL := "https://img.shields.io/npm"
+		npmBaseURL := "https://npmjs.com/package"
 
 		// Download Badges
 
 		weeklyDownloads := &common.Badge{
 			Name: "npm weekly downloads",
 		}
-		weeklyDownloads.Markdown = fmt.Sprintf("[![%s](%s/dw/%s.svg)](%s/%s)", weeklyDownloads.Name, shieldBaseUrl, pj.Name, npmBaseUrl, pj.Name)
+		weeklyDownloads.Markdown = fmt.Sprintf("[![%s](%s/dw/%s.svg)](%s/%s)", weeklyDownloads.Name, shieldBaseURL, pj.Name, npmBaseURL, pj.Name)
 		badges = append(badges, *weeklyDownloads)
 
 		monthlyDownloads := &common.Badge{
 			Name: "npm monthly downloads",
 		}
-		monthlyDownloads.Markdown = fmt.Sprintf("[![%s](%s/dm/%s.svg)](%s/%s)", monthlyDownloads.Name, shieldBaseUrl, pj.Name, npmBaseUrl, pj.Name)
+		monthlyDownloads.Markdown = fmt.Sprintf("[![%s](%s/dm/%s.svg)](%s/%s)", monthlyDownloads.Name, shieldBaseURL, pj.Name, npmBaseURL, pj.Name)
 		badges = append(badges, *monthlyDownloads)
 
 		yearlyDownloads := &common.Badge{
 			Name: "npm yearly downloads",
 		}
-		yearlyDownloads.Markdown = fmt.Sprintf("[![%s](%s/dy/%s.svg)](%s/%s)", yearlyDownloads.Name, shieldBaseUrl, pj.Name, npmBaseUrl, pj.Name)
+		yearlyDownloads.Markdown = fmt.Sprintf("[![%s](%s/dy/%s.svg)](%s/%s)", yearlyDownloads.Name, shieldBaseURL, pj.Name, npmBaseURL, pj.Name)
 		badges = append(badges, *monthlyDownloads)
 
 		totalDownloads := &common.Badge{
 			Name: "npm total downloads",
 		}
-		totalDownloads.Markdown = fmt.Sprintf("[![%s](%s/dy/%s.svg)](%s/%s)", totalDownloads.Name, shieldBaseUrl, pj.Name, npmBaseUrl, pj.Name)
+		totalDownloads.Markdown = fmt.Sprintf("[![%s](%s/dy/%s.svg)](%s/%s)", totalDownloads.Name, shieldBaseURL, pj.Name, npmBaseURL, pj.Name)
 		badges = append(badges, *totalDownloads)
 
 		// version Badges
@@ -69,26 +69,26 @@ func (contract *NpmBadgeContract) Badges() ([]common.Badge, error) {
 		normalVersion := &common.Badge{
 			Name: "npm version",
 		}
-		normalVersion.Markdown = fmt.Sprintf("[![%s](%s/v/%s.svg)](%s/%s)", normalVersion.Name, shieldBaseUrl, pj.Name, npmBaseUrl, pj.Name)
+		normalVersion.Markdown = fmt.Sprintf("[![%s](%s/v/%s.svg)](%s/%s)", normalVersion.Name, shieldBaseURL, pj.Name, npmBaseURL, pj.Name)
 		badges = append(badges, *normalVersion)
 
 		nextVersion := &common.Badge{
 			Name: "npm next version",
 		}
-		nextVersion.Markdown = fmt.Sprintf("[![%s](%s/v/%s/next.svg)](%s/%s)", nextVersion.Name, shieldBaseUrl, pj.Name, npmBaseUrl, pj.Name)
+		nextVersion.Markdown = fmt.Sprintf("[![%s](%s/v/%s/next.svg)](%s/%s)", nextVersion.Name, shieldBaseURL, pj.Name, npmBaseURL, pj.Name)
 		badges = append(badges, *nextVersion)
 
 		canaryVersion := &common.Badge{
 			Name: "npm canary version",
 		}
-		canaryVersion.Markdown = fmt.Sprintf("[![%s](%s/v/%s/canary.svg)](%s/%s)", canaryVersion.Name, shieldBaseUrl, pj.Name, npmBaseUrl, pj.Name)
+		canaryVersion.Markdown = fmt.Sprintf("[![%s](%s/v/%s/canary.svg)](%s/%s)", canaryVersion.Name, shieldBaseURL, pj.Name, npmBaseURL, pj.Name)
 		badges = append(badges, *canaryVersion)
 
 		// license badge
 		licenseBadge := &common.Badge{
 			Name: "license badge",
 		}
-		licenseBadge.Markdown = fmt.Sprintf("[![%s](%s/l/%s.svg)](%s/%s)", licenseBadge.Name, shieldBaseUrl, pj.Name, npmBaseUrl, pj.Name)
+		licenseBadge.Markdown = fmt.Sprintf("[![%s](%s/l/%s.svg)](%s/%s)", licenseBadge.Name, shieldBaseURL, pj.Name, npmBaseURL, pj.Name)
 		badges = append(badges, *licenseBadge)
 
 		// snyk badge
