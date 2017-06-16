@@ -2,4 +2,5 @@ language: go
 
 build:
   ci:
-    - go test github.com/scriptnull/badgeit/formatters
+    - make test-formatters
+    - make test-contracts
