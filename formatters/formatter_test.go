@@ -3,8 +3,9 @@ package formatters
 import "testing"
 
 func TestNewFormatter(t *testing.T) {
-	// pass in empty string
-	output, err := NewFormatter("")
+	// pass in empty formatter option
+	fmtOpt := FormatterOption{}
+	output, err := NewFormatter(fmtOpt)
 	if err == nil {
 		t.Error("Expected Error, but got", err)
 	}
@@ -12,8 +13,11 @@ func TestNewFormatter(t *testing.T) {
 		t.Error("Expected output to be default all formatter")
 	}
 
-	// pass in invalid value
-	output, err = NewFormatter("invalidArg")
+	// pass in invalid CmdArg value
+	fmtOpt = FormatterOption{
+		CmdArgType: "invalidArg",
+	}
+	output, err = NewFormatter(fmtOpt)
 	if err == nil {
 		t.Error("Expected Error, but got", err)
 	}
@@ -22,7 +26,10 @@ func TestNewFormatter(t *testing.T) {
 	}
 
 	// check -f="all"
-	output, err = NewFormatter("all")
+	fmtOpt = FormatterOption{
+		CmdArgType: "all",
+	}
+	output, err = NewFormatter(fmtOpt)
 	if err != nil {
 		t.Error("Expected Error, but got", err)
 	}
@@ -31,7 +38,10 @@ func TestNewFormatter(t *testing.T) {
 	}
 
 	// check -f="min"
-	output, err = NewFormatter("min")
+	fmtOpt = FormatterOption{
+		CmdArgType: "min",
+	}
+	output, err = NewFormatter(fmtOpt)
 	if err != nil {
 		t.Error("Expected Error, but got", err)
 	}
