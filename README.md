@@ -5,7 +5,7 @@
 [WIP] Hassle-free badges for your READMEs.
 
 ## Install
-
+Download the binary from [latest release](https://github.com/scriptnull/badgeit/releases).
 
 ## Usage
 ```bash
