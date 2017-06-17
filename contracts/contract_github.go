@@ -18,11 +18,23 @@ func NewGithubBadgeContract(path string) *GithubBadgeContract {
 	}
 }
 
+// Badges returns the badges for github
 func (contract GithubBadgeContract) Badges() ([]common.Badge, error) {
 	repos := common.GetGithubRepos(contract.Path)
 
-	fmt.Printf("%v", repos)
-	return []common.Badge{}, nil
+	var badges []common.Badge
+	for _, repo := range repos {
+		downloadBadges := generateDownloadBadges(repo)
+		versionBadges := generateVersionBadges(repo)
+		socialBadges := generateSocialBadges(repo)
+		miscBadges := generateMiscBadges(repo)
+		badges = append(badges, downloadBadges...)
+		badges = append(badges, versionBadges...)
+		badges = append(badges, socialBadges...)
+		badges = append(badges, miscBadges...)
+	}
+
+	return badges, nil
 }
 
 func generateDownloadBadges(repo common.GithubRepo) (badges []common.Badge) {
