@@ -5,23 +5,45 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/scriptnull/badgeit/common"
+	"github.com/scriptnull/badgeit/contracts"
 	"github.com/scriptnull/badgeit/formatters"
 )
 
 func main() {
 	// Parse Flags
-	fFlag := flag.String("-f", "all", "Format for arranging the badges.")
-	_ = flag.String("-d", " ", "Delimiter to be used.")
+	fFlag := flag.String("f", "all", "Format for arranging the badges.")
+	dFlag := flag.String("d", " ", "Delimiter to be used.")
 	flag.Parse()
 
+	// Obtain destination path, if not found, it will be cwd
+	args := flag.Args()
+	path, err := os.Getwd()
+	if len(args) != 0 && len(args[0]) > 0 {
+		path = args[0]
+	}
+
+	// Check Contract aggreement and obtain eligible badges
+	var badges []common.Badge
+
+	npmBadges, err := contracts.NewNpmBadgeContract(path).Badges()
+	if err == nil {
+		badges = append(badges, npmBadges...)
+	}
+
 	// Get Suitable Formatter
-	formatter, err := formatters.NewFormatter(*fFlag)
+	formatter, err := formatters.NewFormatter(
+		formatters.FormatterOption{
+			Badges:    badges,
+			Delimiter: *dFlag,
+			Type:      *fFlag,
+		},
+	)
 	if err != nil {
 		fmt.Fprint(os.Stderr, "Invalid -f option.")
 	}
 
-	// Print result
 	result := formatter.Format()
-	fmt.Println(result)
+	fmt.Fprintf(os.Stdout, "%s\n", result)
 	os.Exit(0)
 }

@@ -15,7 +15,7 @@ func TestNewFormatter(t *testing.T) {
 
 	// pass in invalid CmdArg value
 	fmtOpt = FormatterOption{
-		CmdArgType: "invalidArg",
+		Type: "invalidArg",
 	}
 	output, err = NewFormatter(fmtOpt)
 	if err == nil {
@@ -27,7 +27,7 @@ func TestNewFormatter(t *testing.T) {
 
 	// check -f="all"
 	fmtOpt = FormatterOption{
-		CmdArgType: "all",
+		Type: "all",
 	}
 	output, err = NewFormatter(fmtOpt)
 	if err != nil {
@@ -39,7 +39,7 @@ func TestNewFormatter(t *testing.T) {
 
 	// check -f="min"
 	fmtOpt = FormatterOption{
-		CmdArgType: "min",
+		Type: "min",
 	}
 	output, err = NewFormatter(fmtOpt)
 	if err != nil {

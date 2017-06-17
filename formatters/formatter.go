@@ -10,14 +10,14 @@ type Formatter interface {
 
 // FormatterOption has options for formatter
 type FormatterOption struct {
-	CmdArgType string
-	Badges     []common.Badge
-	Delimiter  string
+	Type      string
+	Badges    []common.Badge
+	Delimiter string
 }
 
 // NewFormatter chooses the required formatter
 func NewFormatter(formatterArg FormatterOption) (Formatter, error) {
-	switch formatterArg.CmdArgType {
+	switch formatterArg.Type {
 	case "all":
 		return AllFormatter{formatterArg}, nil
 	case "min":
