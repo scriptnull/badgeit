@@ -100,12 +100,6 @@ func generateSocialBadges(repo common.GithubRepo) (badges []common.Badge) {
 	watchers.Markdown = fmt.Sprintf("[![%s](%s/watchers/%s.svg?style=social&label=Watch)](%s)", watchers.Name, shieldBaseURL, repo.Slug, repo.URL)
 	badges = append(badges, *watchers)
 
-	followers := &common.Badge{
-		Name: "github followers",
-	}
-	followers.Markdown = fmt.Sprintf("[![%s](%s/followers/%s.svg?style=social&label=Follow)](%s)", followers.Name, shieldBaseURL, repo.Slug, repo.URL)
-	badges = append(badges, *followers)
-
 	return
 }
 

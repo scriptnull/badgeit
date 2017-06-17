@@ -63,10 +63,9 @@ func TestGenerateSocialBadges(t *testing.T) {
 		URL:      "https://github.com/atom/atom",
 	}
 	testMap := map[string]bool{
-		"[![github fork](https://img.shields.io/github/forks/atom/atom.svg?style=social&label=Fork)](https://github.com/atom/atom)":            false,
-		"[![github stars](https://img.shields.io/github/stars/atom/atom.svg?style=social&label=Star)](https://github.com/atom/atom)":           false,
-		"[![github watchers](https://img.shields.io/github/watchers/atom/atom.svg?style=social&label=Watch)](https://github.com/atom/atom)":    false,
-		"[![github followers](https://img.shields.io/github/followers/atom/atom.svg?style=social&label=Follow)](https://github.com/atom/atom)": false,
+		"[![github fork](https://img.shields.io/github/forks/atom/atom.svg?style=social&label=Fork)](https://github.com/atom/atom)":         false,
+		"[![github stars](https://img.shields.io/github/stars/atom/atom.svg?style=social&label=Star)](https://github.com/atom/atom)":        false,
+		"[![github watchers](https://img.shields.io/github/watchers/atom/atom.svg?style=social&label=Watch)](https://github.com/atom/atom)": false,
 	}
 
 	badges := generateSocialBadges(repo)
