@@ -10,12 +10,19 @@ import (
 	"github.com/scriptnull/badgeit/formatters"
 )
 
+const VERSION = "0.1.0"
+
 func main() {
 	// Parse Flags
 	fFlag := flag.String("f", "all", "Format for arranging the badges.")
 	dFlag := flag.String("d", " ", "Delimiter to be used.")
+	vFlag := flag.Bool("v", false, "Version information.")
 	flag.Parse()
 
+	if *vFlag {
+		fmt.Println("badgeit version: " + VERSION)
+		os.Exit(0)
+	}
 	// Obtain destination path, if not found, it will be cwd
 	args := flag.Args()
 	path, err := os.Getwd()
