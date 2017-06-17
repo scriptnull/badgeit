@@ -4,6 +4,9 @@ run:
 build:
 	go build
 
+badge-github: build
+	./badgeit samples/github
+
 badge-npm: build
 	./badgeit samples/npm
 

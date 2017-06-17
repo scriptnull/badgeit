@@ -23,6 +23,7 @@ func main() {
 		fmt.Println("badgeit version: " + VERSION)
 		os.Exit(0)
 	}
+
 	// Obtain destination path, if not found, it will be cwd
 	args := flag.Args()
 	path, err := os.Getwd()
@@ -37,6 +38,11 @@ func main() {
 	if err == nil {
 		badges = append(badges, npmBadges...)
 	}
+	githubBadges, err := contracts.NewGithubBadgeContract(path).Badges()
+	if err == nil {
+		badges = append(badges, githubBadges...)
+	}
+
 	if len(badges) == 0 {
 		fmt.Println("0 badges detected.")
 		os.Exit(0)
