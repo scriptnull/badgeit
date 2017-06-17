@@ -9,7 +9,7 @@ import (
 	"github.com/scriptnull/badgeit/common"
 )
 
-// NpmBadgeContract has the collection of contracts that yield one or more badges
+// NpmBadgeContract checks for npm badges
 type NpmBadgeContract struct {
 	Path string
 }
