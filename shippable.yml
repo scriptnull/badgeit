@@ -14,5 +14,3 @@ build:
     - godep restore
     - make test-formatters
     - make test-contracts
-    - go test -cover github.com/scriptnull/badgeit/formatters
-    - go test -cover github.com/scriptnull/badgeit/contracts
