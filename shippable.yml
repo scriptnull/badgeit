@@ -7,7 +7,7 @@ build:
     - echo $GOPATH
     - ls
     - pwd
-    - sudo apt-get install golang
-    - go get -u -v gopkg.in/src-d/go-git.v4/...
+    # - sudo apt-get install golang
+    # - go get -u -v gopkg.in/src-d/go-git.v4/...
     - make test-formatters
     - make test-contracts
