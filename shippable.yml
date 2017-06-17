@@ -2,6 +2,11 @@ language: go
 
 build:
   ci:
+    - which go
+    - echo $GOROOT
+    - echo $GOPATH
+    - ls
+    - pwd
     - go get -u -v gopkg.in/src-d/go-git.v4/...
     - make test-formatters
     - make test-contracts
