@@ -7,7 +7,7 @@ func TestBadges(t *testing.T) {
 		"[![npm weekly downloads](https://img.shields.io/npm/dw/express.svg)](https://npmjs.com/package/express)":         false,
 		"[![npm monthly downloads](https://img.shields.io/npm/dm/express.svg)](https://npmjs.com/package/express)":        false,
 		"[![npm yearly downloads](https://img.shields.io/npm/dy/express.svg)](https://npmjs.com/package/express)":         false,
-		"[![npm total downloads](https://img.shields.io/npm/dy/express.svg)](https://npmjs.com/package/express)":          false,
+		"[![npm total downloads](https://img.shields.io/npm/dt/express.svg)](https://npmjs.com/package/express)":          false,
 		"[![npm version](https://img.shields.io/npm/v/express.svg)](https://npmjs.com/package/express)":                   false,
 		"[![npm next version](https://img.shields.io/npm/v/express/next.svg)](https://npmjs.com/package/express)":         false,
 		"[![npm canary version](https://img.shields.io/npm/v/express/canary.svg)](https://npmjs.com/package/express)":     false,

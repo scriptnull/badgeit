@@ -71,7 +71,7 @@ func (contract *NpmBadgeContract) Badges() ([]common.Badge, error) {
 		totalDownloads := &common.Badge{
 			Name: "npm total downloads",
 		}
-		totalDownloads.Markdown = fmt.Sprintf("[![%s](%s/dy/%s.svg)](%s/%s)", totalDownloads.Name, shieldBaseURL, pj.Name, npmBaseURL, pj.Name)
+		totalDownloads.Markdown = fmt.Sprintf("[![%s](%s/dt/%s.svg)](%s/%s)", totalDownloads.Name, shieldBaseURL, pj.Name, npmBaseURL, pj.Name)
 		badges = append(badges, *totalDownloads)
 
 		// version Badges
