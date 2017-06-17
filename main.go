@@ -37,6 +37,10 @@ func main() {
 	if err == nil {
 		badges = append(badges, npmBadges...)
 	}
+	if len(badges) == 0 {
+		fmt.Println("0 badges detected.")
+		os.Exit(0)
+	}
 
 	// Get Suitable Formatter
 	formatter, err := formatters.NewFormatter(
@@ -52,5 +56,7 @@ func main() {
 
 	result := formatter.Format()
 	fmt.Fprintf(os.Stdout, "%s\n", result)
+	fmt.Println("")
+	fmt.Println(len(badges), " badges detected.")
 	os.Exit(0)
 }
