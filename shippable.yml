@@ -12,7 +12,7 @@ build:
     - pwd
     - go get github.com/tools/godep
     - godep restore
-    # - sudo apt-get install golang
-    # - go get -u -v gopkg.in/src-d/go-git.v4/...
     - make test-formatters
     - make test-contracts
+    - go test -cover github.com/scriptnull/badgeit/formatters
+    - go test -cover github.com/scriptnull/badgeit/contracts
