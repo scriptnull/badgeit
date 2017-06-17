@@ -12,8 +12,8 @@ type AllFormatter struct {
 // Format gives a format in which all badges are present
 func (fm AllFormatter) Format() string {
 	// Set default Delimiter
-	if fm.Delimiter == " " {
-		fm.Delimiter = " \n"
+	if fm.Delimiter == "" {
+		fm.Delimiter = " "
 	}
 
 	// Generate badge markdown strings

@@ -25,7 +25,7 @@ func TestFormat(t *testing.T) {
 		},
 	}
 	result := allFormatter.Format()
-	expected := "[describe1](link1) \n[describe2](link2)"
+	expected := "[describe1](link1) [describe2](link2)"
 	if result != expected {
 		t.Errorf("Expected %s, but got %s", expected, result)
 	}
