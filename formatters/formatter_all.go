@@ -1,6 +1,7 @@
 package formatters
 
 import (
+	"fmt"
 	"strings"
 )
 
@@ -16,10 +17,13 @@ func (fm AllFormatter) Format() string {
 		fm.Delimiter = " "
 	}
 
+	// replace escaped new line with actual new line
+	fm.Delimiter = strings.Replace(fm.Delimiter, `\n`, "\n", -1)
+
 	// Generate badge markdown strings
 	var badgeStr string
 	for _, badge := range fm.Badges {
-		badgeStr = badgeStr + badge.Markdown + fm.Delimiter
+		badgeStr = fmt.Sprintf("%s%s%s", badgeStr, badge.Markdown, fm.Delimiter)
 	}
 
 	return strings.TrimSuffix(badgeStr, fm.Delimiter)

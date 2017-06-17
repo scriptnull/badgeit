@@ -66,7 +66,7 @@ func (contract *NpmBadgeContract) Badges() ([]common.Badge, error) {
 			Name: "npm yearly downloads",
 		}
 		yearlyDownloads.Markdown = fmt.Sprintf("[![%s](%s/dy/%s.svg)](%s/%s)", yearlyDownloads.Name, shieldBaseURL, pj.Name, npmBaseURL, pj.Name)
-		badges = append(badges, *monthlyDownloads)
+		badges = append(badges, *yearlyDownloads)
 
 		totalDownloads := &common.Badge{
 			Name: "npm total downloads",
