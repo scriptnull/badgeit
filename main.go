@@ -42,6 +42,10 @@ func main() {
 	if err == nil {
 		badges = append(badges, githubBadges...)
 	}
+	gitterBadges, err := contracts.NewGitterBadgeContract(path).Badges()
+	if err == nil {
+		badges = append(badges, gitterBadges...)
+	}
 
 	if len(badges) == 0 {
 		fmt.Println("0 badges detected.")

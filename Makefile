@@ -7,6 +7,9 @@ build:
 badge-github: build
 	./badgeit samples/github
 
+badge-gitter: build
+	./badgeit samples/gitter
+
 badge-npm: build
 	./badgeit samples/npm
 
