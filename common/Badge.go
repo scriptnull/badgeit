@@ -1,6 +1,9 @@
 package common
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 // Badge is actual raw markdown badge
 type Badge struct {
@@ -13,12 +16,16 @@ type Badge struct {
 
 // Markdown returns the markdown representation of the badge
 func (b Badge) Markdown() string {
-	imageURL := b.ImageURL
+	var queryParams []string
 	if b.Style != "" {
-		imageURL = fmt.Sprintf("%s?style=%s", imageURL, b.Style)
+		queryParams = append(queryParams, "style="+b.Style)
 	}
 	if b.Label != "" {
-		imageURL = fmt.Sprintf("%s&label=%s", imageURL, b.Label)
+		queryParams = append(queryParams, "label="+b.Label)
+	}
+	imageURL := b.ImageURL
+	if len(queryParams) > 0 {
+		imageURL += "?" + strings.Join(queryParams, "&")
 	}
 	return fmt.Sprintf("[![%s](%s)](%s)", b.Name, imageURL, b.LinkURL)
 }

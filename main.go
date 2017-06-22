@@ -16,6 +16,7 @@ func main() {
 	// Parse Flags
 	fFlag := flag.String("f", "all", "Format for arranging the badges.")
 	dFlag := flag.String("d", " ", "Delimiter to be used.")
+	sFlag := flag.String("s", "", "Style of the badge.")
 	vFlag := flag.Bool("v", false, "Version information.")
 	flag.Parse()
 
@@ -58,6 +59,7 @@ func main() {
 			Badges:    badges,
 			Delimiter: *dFlag,
 			Type:      *fFlag,
+			Style:     *sFlag,
 		},
 	)
 	if err != nil {
