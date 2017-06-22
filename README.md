@@ -48,3 +48,16 @@ badge-n
 ```
 
 > If not specified, blank space will be the default
+
+## Style
+Use `-s` to mention the style of the badges generated with [shields.io](http://shields.io/).
+
+```bash
+$ badgeit -s flat
+```
+
+Available styles are
+- `plastic`: ![plastic](https://img.shields.io/badge/style-plastic-green.svg?style=plastic)
+- `flat`: ![flat](https://img.shields.io/badge/style-flat-green.svg?style=flat)
+- `flat-square`:  ![flat-square](https://img.shields.io/badge/style-flat--squared-green.svg?style=flat-square)
+- `social`: ![social](https://img.shields.io/badge/style-social-green.svg?style=social)
