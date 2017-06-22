@@ -10,6 +10,7 @@ build:
     - echo $GOPATH
     - ls
     - pwd
+    - make init
     - go get github.com/tools/godep
     - godep restore
     - make test-formatters
