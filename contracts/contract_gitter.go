@@ -28,9 +28,10 @@ func (contract GitterBadgeContract) Badges() ([]common.Badge, error) {
 
 	for _, repo := range repos {
 		chatRoom := &common.Badge{
-			Name: "gitter chat room",
+			Name:     "gitter chat room",
+			ImageURL: fmt.Sprintf("%s/%s.svg", gitterBadgesURL, repo.Slug),
+			LinkURL:  fmt.Sprintf("%s/%s", gitterURL, repo.Slug),
 		}
-		chatRoom.Markdown = fmt.Sprintf("[![%s](%s/%s.svg)](%s/%s)", chatRoom.Name, gitterBadgesURL, repo.Slug, gitterURL, repo.Slug)
 		badges = append(badges, *chatRoom)
 	}
 

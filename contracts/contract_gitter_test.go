@@ -15,7 +15,7 @@ func TestGenerateGitterBadge(t *testing.T) {
 	}
 
 	for _, badge := range badges {
-		testMap[badge.Markdown] = true
+		testMap[badge.Markdown()] = true
 	}
 
 	for key, val := range testMap {

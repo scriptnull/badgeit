@@ -23,7 +23,7 @@ func (fm AllFormatter) Format() string {
 	// Generate badge markdown strings
 	var badgeStr string
 	for _, badge := range fm.Badges {
-		badgeStr = fmt.Sprintf("%s%s%s", badgeStr, badge.Markdown, fm.Delimiter)
+		badgeStr = fmt.Sprintf("%s%s%s", badgeStr, badge.Markdown(), fm.Delimiter)
 	}
 
 	return strings.TrimSuffix(badgeStr, fm.Delimiter)

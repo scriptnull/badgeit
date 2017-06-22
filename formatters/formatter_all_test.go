@@ -10,11 +10,13 @@ func TestFormat(t *testing.T) {
 	badges := []common.Badge{
 		common.Badge{
 			Name:     "sample badge 1",
-			Markdown: "[describe1](link1)",
+			ImageURL: "imageurl 1",
+			LinkURL:  "linkurl 1",
 		},
 		common.Badge{
 			Name:     "sample badge 2",
-			Markdown: "[describe2](link2)",
+			ImageURL: "imageurl 2",
+			LinkURL:  "linkurl 2",
 		},
 	}
 
@@ -25,7 +27,7 @@ func TestFormat(t *testing.T) {
 		},
 	}
 	result := allFormatter.Format()
-	expected := "[describe1](link1) [describe2](link2)"
+	expected := "[![sample badge 1](imageurl 1)](linkurl 1) [![sample badge 2](imageurl 2)](linkurl 2)"
 	if result != expected {
 		t.Errorf("Expected %s, but got %s", expected, result)
 	}
@@ -33,7 +35,7 @@ func TestFormat(t *testing.T) {
 	// Basic case with badge and delimiter
 	allFormatter.Delimiter = " xx "
 	result = allFormatter.Format()
-	expected = "[describe1](link1) xx [describe2](link2)"
+	expected = "[![sample badge 1](imageurl 1)](linkurl 1) xx [![sample badge 2](imageurl 2)](linkurl 2)"
 	if result != expected {
 		t.Errorf("Expected %s, but got %s", expected, result)
 	}

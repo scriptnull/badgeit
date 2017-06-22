@@ -41,15 +41,17 @@ func generateDownloadBadges(repo common.GithubRepo) (badges []common.Badge) {
 	shieldBaseURL := "https://img.shields.io/github/downloads"
 
 	allReleases := &common.Badge{
-		Name: "github all releases",
+		Name:     "github all releases",
+		ImageURL: fmt.Sprintf("%s/%s/total.svg", shieldBaseURL, repo.Slug),
+		LinkURL:  repo.URL,
 	}
-	allReleases.Markdown = fmt.Sprintf("[![%s](%s/%s/total.svg)](%s)", allReleases.Name, shieldBaseURL, repo.Slug, repo.URL)
 	badges = append(badges, *allReleases)
 
 	latestRelease := &common.Badge{
-		Name: "github latest release",
+		Name:     "github latest release",
+		ImageURL: fmt.Sprintf("%s/%s/latest/total.svg", shieldBaseURL, repo.Slug),
+		LinkURL:  repo.URL,
 	}
-	latestRelease.Markdown = fmt.Sprintf("[![%s](%s/%s/latest/total.svg)](%s)", latestRelease.Name, shieldBaseURL, repo.Slug, repo.URL)
 	badges = append(badges, *latestRelease)
 
 	return
@@ -59,21 +61,24 @@ func generateVersionBadges(repo common.GithubRepo) (badges []common.Badge) {
 	shieldBaseURL := "https://img.shields.io/github"
 
 	tag := &common.Badge{
-		Name: "github tag",
+		Name:     "github tag",
+		ImageURL: fmt.Sprintf("%s/tag/%s.svg", shieldBaseURL, repo.Slug),
+		LinkURL:  repo.URL,
 	}
-	tag.Markdown = fmt.Sprintf("[![%s](%s/tag/%s.svg)](%s)", tag.Name, shieldBaseURL, repo.Slug, repo.URL)
 	badges = append(badges, *tag)
 
 	release := &common.Badge{
-		Name: "github release",
+		Name:     "github release",
+		ImageURL: fmt.Sprintf("%s/release/%s.svg", shieldBaseURL, repo.Slug),
+		LinkURL:  repo.URL,
 	}
-	release.Markdown = fmt.Sprintf("[![%s](%s/release/%s.svg)](%s)", release.Name, shieldBaseURL, repo.Slug, repo.URL)
 	badges = append(badges, *release)
 
 	preRelease := &common.Badge{
-		Name: "github pre release",
+		Name:     "github pre release",
+		ImageURL: fmt.Sprintf("%s/release/%s/all.svg", shieldBaseURL, repo.Slug),
+		LinkURL:  repo.URL,
 	}
-	preRelease.Markdown = fmt.Sprintf("[![%s](%s/release/%s/all.svg)](%s)", preRelease.Name, shieldBaseURL, repo.Slug, repo.URL)
 	badges = append(badges, *preRelease)
 
 	return
@@ -83,21 +88,30 @@ func generateSocialBadges(repo common.GithubRepo) (badges []common.Badge) {
 	shieldBaseURL := "https://img.shields.io/github"
 
 	fork := &common.Badge{
-		Name: "github fork",
+		Name:     "github fork",
+		ImageURL: fmt.Sprintf("%s/forks/%s.svg", shieldBaseURL, repo.Slug),
+		LinkURL:  repo.URL,
+		Style:    "social",
+		Label:    "Fork",
 	}
-	fork.Markdown = fmt.Sprintf("[![%s](%s/forks/%s.svg?style=social&label=Fork)](%s)", fork.Name, shieldBaseURL, repo.Slug, repo.URL)
 	badges = append(badges, *fork)
 
 	stars := &common.Badge{
-		Name: "github stars",
+		Name:     "github stars",
+		ImageURL: fmt.Sprintf("%s/stars/%s.svg", shieldBaseURL, repo.Slug),
+		LinkURL:  repo.URL,
+		Style:    "social",
+		Label:    "Star",
 	}
-	stars.Markdown = fmt.Sprintf("[![%s](%s/stars/%s.svg?style=social&label=Star)](%s)", stars.Name, shieldBaseURL, repo.Slug, repo.URL)
 	badges = append(badges, *stars)
 
 	watchers := &common.Badge{
-		Name: "github watchers",
+		Name:     "github watchers",
+		ImageURL: fmt.Sprintf("%s/watchers/%s.svg", shieldBaseURL, repo.Slug),
+		LinkURL:  repo.URL,
+		Style:    "social",
+		Label:    "Watch",
 	}
-	watchers.Markdown = fmt.Sprintf("[![%s](%s/watchers/%s.svg?style=social&label=Watch)](%s)", watchers.Name, shieldBaseURL, repo.Slug, repo.URL)
 	badges = append(badges, *watchers)
 
 	return
@@ -107,39 +121,45 @@ func generateMiscBadges(repo common.GithubRepo) (badges []common.Badge) {
 	shieldBaseURL := "https://img.shields.io/github"
 
 	openIssues := &common.Badge{
-		Name: "github open issues",
+		Name:     "github open issues",
+		ImageURL: fmt.Sprintf("%s/issues/%s.svg", shieldBaseURL, repo.Slug),
+		LinkURL:  repo.URL,
 	}
-	openIssues.Markdown = fmt.Sprintf("[![%s](%s/issues/%s.svg)](%s)", openIssues.Name, shieldBaseURL, repo.Slug, repo.URL)
 	badges = append(badges, *openIssues)
 
 	closedIssues := &common.Badge{
-		Name: "github closed issues",
+		Name:     "github closed issues",
+		ImageURL: fmt.Sprintf("%s/issues-closed/%s.svg", shieldBaseURL, repo.Slug),
+		LinkURL:  repo.URL,
 	}
-	closedIssues.Markdown = fmt.Sprintf("[![%s](%s/issues-closed/%s.svg)](%s)", closedIssues.Name, shieldBaseURL, repo.Slug, repo.URL)
 	badges = append(badges, *closedIssues)
 
 	openPR := &common.Badge{
-		Name: "github open pr",
+		Name:     "github open pr",
+		ImageURL: fmt.Sprintf("%s/issues-pr/%s.svg", shieldBaseURL, repo.Slug),
+		LinkURL:  repo.URL,
 	}
-	openPR.Markdown = fmt.Sprintf("[![%s](%s/issues-pr/%s.svg)](%s)", openPR.Name, shieldBaseURL, repo.Slug, repo.URL)
 	badges = append(badges, *openPR)
 
 	closedPR := &common.Badge{
-		Name: "github closed pr",
+		Name:     "github closed pr",
+		ImageURL: fmt.Sprintf("%s/issues-pr-closed/%s.svg", shieldBaseURL, repo.Slug),
+		LinkURL:  repo.URL,
 	}
-	closedPR.Markdown = fmt.Sprintf("[![%s](%s/issues-pr-closed/%s.svg)](%s)", closedPR.Name, shieldBaseURL, repo.Slug, repo.URL)
 	badges = append(badges, *closedPR)
 
 	contributors := &common.Badge{
-		Name: "github contributors",
+		Name:     "github contributors",
+		ImageURL: fmt.Sprintf("%s/contributors/%s.svg", shieldBaseURL, repo.Slug),
+		LinkURL:  repo.URL,
 	}
-	contributors.Markdown = fmt.Sprintf("[![%s](%s/contributors/%s.svg)](%s)", contributors.Name, shieldBaseURL, repo.Slug, repo.URL)
 	badges = append(badges, *contributors)
 
 	license := &common.Badge{
-		Name: "github license",
+		Name:     "github license",
+		ImageURL: fmt.Sprintf("%s/license/%s.svg", shieldBaseURL, repo.Slug),
+		LinkURL:  repo.URL,
 	}
-	license.Markdown = fmt.Sprintf("[![%s](%s/license/%s.svg)](%s)", license.Name, shieldBaseURL, repo.Slug, repo.URL)
 	badges = append(badges, *license)
 
 	return

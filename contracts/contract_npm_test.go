@@ -20,7 +20,7 @@ func TestBadges(t *testing.T) {
 		t.Fatal("Expected err to be nil, but got", err)
 	}
 	for _, badge := range badges {
-		testMap[badge.Markdown] = true
+		testMap[badge.Markdown()] = true
 	}
 
 	for key, val := range testMap {

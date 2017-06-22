@@ -20,7 +20,7 @@ func TestGenerateDownloadBadges(t *testing.T) {
 
 	badges := generateDownloadBadges(repo)
 	for _, badge := range badges {
-		testMap[badge.Markdown] = true
+		testMap[badge.Markdown()] = true
 	}
 
 	for key, val := range testMap {
@@ -45,7 +45,7 @@ func TestGenerateVersionBadges(t *testing.T) {
 
 	badges := generateVersionBadges(repo)
 	for _, badge := range badges {
-		testMap[badge.Markdown] = true
+		testMap[badge.Markdown()] = true
 	}
 
 	for key, val := range testMap {
@@ -70,7 +70,7 @@ func TestGenerateSocialBadges(t *testing.T) {
 
 	badges := generateSocialBadges(repo)
 	for _, badge := range badges {
-		testMap[badge.Markdown] = true
+		testMap[badge.Markdown()] = true
 	}
 
 	for key, val := range testMap {
@@ -98,7 +98,7 @@ func TestGenerateMiscBadges(t *testing.T) {
 
 	badges := generateMiscBadges(repo)
 	for _, badge := range badges {
-		testMap[badge.Markdown] = true
+		testMap[badge.Markdown()] = true
 	}
 
 	for key, val := range testMap {
