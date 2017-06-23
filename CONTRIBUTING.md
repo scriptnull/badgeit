@@ -45,3 +45,6 @@ For example, `github` checks if the given repository is a git repository and has
 1. Make sure to write required tests. You can use `samples` folder to hold any test sample data for your contract.
 1. Use `Makefile` to define task for running task, generating the badges for the contract and initializing the sample data (if needed).
 1. Add sample badges in README that the contract can output.
+
+## Code of Conduct
+Please adhere to the [Code of Conduct](https://github.com/scriptnull/badgeit/blob/master/CODE_OF_CONDUCT.md).
