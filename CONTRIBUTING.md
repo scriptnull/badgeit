@@ -24,6 +24,8 @@ make build
 #### Run tests
 ```bash
 make test
+make test-contracts # test all the contracts 
+make test-formatters # test all the formatters
 ```
 
 ## Guidelines
@@ -43,7 +45,7 @@ For example, `github` checks if the given repository is a git repository and has
 1. Add `contract_NAME.go` and `contract_NAME_test.go` in [contracts package](https://github.com/scriptnull/badgeit/tree/master/contracts).
 1. Refer [similar contracts](https://github.com/scriptnull/badgeit/blob/master/contracts/contract_npm.go) to model code.
 1. Make sure to write required tests. You can use `samples` folder to hold any test sample data for your contract.
-1. Use `Makefile` to define task for running task, generating the badges for the contract and initializing the sample data (if needed).
+1. Use `Makefile` to define task for running tests, generating the badges for the contract and initializing the sample data (if needed).
 1. Add sample badges in README that the contract can output.
 
 ## Code of Conduct
