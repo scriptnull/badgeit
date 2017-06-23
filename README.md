@@ -61,3 +61,6 @@ Available styles are
 - `flat`: ![flat](https://img.shields.io/badge/style-flat-green.svg?style=flat)
 - `flat-square`:  ![flat-square](https://img.shields.io/badge/style-flat--squared-green.svg?style=flat-square)
 - `social`: ![social](https://img.shields.io/badge/style-social-green.svg?style=social)
+
+## Contribute
+Please refer [Contributing section](https://github.com/scriptnull/badgeit/blob/master/CONTRIBUTING.md) for guidelines on contributing.
