@@ -33,6 +33,8 @@ make test-formatters # test all the formatters
 2. If you don't know where to start, check the issues with `beginner-friendly` label.
 3. Feel free to reach out, if you are struck with something. There is always somebody to help and something to learn.
 
+## Reporting bugs
+Please search the issue board if there it is already reported. Provide detailed incident history like screenshots, input data etc.
 
 ## Adding Contracts
 > These issues have `new contract` label
@@ -47,6 +49,16 @@ For example, `github` checks if the given repository is a git repository and has
 1. Make sure to write required tests. You can use `samples` folder to hold any test sample data for your contract.
 1. Use `Makefile` to define task for running tests, generating the badges for the contract and initializing the sample data (if needed).
 1. Add sample badges in README that the contract can output.
+
+## Adding Formatters
+> These issues have `new formatter` label
+
+Formatters define the way the badges are presented.
+
+Steps
+1. Add `formatter_NAME.go` and `formatter_NAME_test.go` in [fotmatters package](https://github.com/scriptnull/badgeit/tree/master/formatters).
+1. Refer [similar formatters](https://github.com/scriptnull/badgeit/blob/master/formatters/formatter_all.go) to model code.
+1. Add short description in [Formatters section of README](https://github.com/scriptnull/badgeit#formatters)
 
 ## Code of Conduct
 Please adhere to the [Code of Conduct](https://github.com/scriptnull/badgeit/blob/master/CODE_OF_CONDUCT.md).
