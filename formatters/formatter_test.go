@@ -48,4 +48,16 @@ func TestNewFormatter(t *testing.T) {
 	if _, ok := output.(MinFormatter); !ok {
 		t.Error("Expected output to be MinFormatter")
 	}
+
+	// check -f="all-json"
+	fmtOpt = FormatterOption{
+		Type: "all-json",
+	}
+	output, err = NewFormatter(fmtOpt)
+	if err != nil {
+		t.Error("Expected Error, but got", err)
+	}
+	if _, ok := output.(AllJSONFormatter); !ok {
+		t.Error("Expected output to be AllJSONFormatter")
+	}
 }

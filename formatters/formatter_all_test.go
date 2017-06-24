@@ -6,7 +6,7 @@ import (
 	"github.com/scriptnull/badgeit/common"
 )
 
-func TestFormat(t *testing.T) {
+func TestAllFormat(t *testing.T) {
 	badges := []common.Badge{
 		common.Badge{
 			Name:     "sample badge 1",

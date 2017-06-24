@@ -31,6 +31,8 @@ func NewFormatter(formatterArg FormatterOption) (Formatter, error) {
 		return AllFormatter{formatterArg}, nil
 	case "min":
 		return MinFormatter{formatterArg}, nil
+	case "all-json":
+		return AllJSONFormatter{formatterArg}, nil
 	}
 	return AllFormatter{formatterArg}, errors.New("Unknown formatter")
 }
