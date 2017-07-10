@@ -15,3 +15,4 @@ build:
     - godep restore
     - make test-formatters
     - make test-contracts
+    - docker build -t "scriptnull/badgeit:$BRANCH.$BUILD_NUMBER"
