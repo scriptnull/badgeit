@@ -16,3 +16,4 @@ build:
     - make test-formatters
     - make test-contracts
     - docker build -t "scriptnull/badgeit-api:$BRANCH.$BUILD_NUMBER" ./api/.
+    - docker images
