@@ -42,6 +42,10 @@ init: init-samples
 clean: clean-samples
 
 api-run:
+	export RABBIT_USERNAME="user" && \
+	export RABBIT_PASSWORD="password" && \
+	export RABBIT_HOSTNAME="localhost" && \
+	export RABBIT_PORT="5672" && \
 	go run ./api/main.go
 
 worker-run: build

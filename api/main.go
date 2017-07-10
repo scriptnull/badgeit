@@ -35,8 +35,12 @@ func main() {
 }
 
 func initMessageQueue() (*amqp.Connection, *amqp.Queue, *amqp.Channel, error) {
-	// TODO: get username password from environemnt variables
-	conn, err := amqp.Dial("amqp://user:password@localhost:5672/")
+	username := os.Getenv("RABBIT_USERNAME")
+	password := os.Getenv("RABBIT_PASSWORD")
+	hostname := os.Getenv("RABBIT_HOSTNAME")
+	port := os.Getenv("RABBIT_PORT")
+	conStr := fmt.Sprintf("amqp://%s:%s@%s:%s/", username, password, hostname, port)
+	conn, err := amqp.Dial(conStr)
 	if err != nil {
 		return nil, nil, nil, err
 	}
