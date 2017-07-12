@@ -17,3 +17,13 @@ build:
     - make test-contracts
     - docker build -t "scriptnull/badgeit-api:$BRANCH.$BUILD_NUMBER" ./api/.
     - docker images
+    - docker push scriptnull/badgeit-api:$BRANCH.$BUILD_NUMBER
+
+integrations:
+  hub:
+    - integrationName: Vishnu's Docker
+      type: docker
+      branches:
+        only:
+          - master
+          - dev
