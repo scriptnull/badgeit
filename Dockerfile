@@ -9,6 +9,8 @@ RUN go-wrapper install    # "go install -v ./..."
 
 RUN go build
 
+RUN mv badgeit ./worker/badgeit
+
 RUN cd worker && go-wrapper download
 RUN cd worker && go-wrapper install
 
