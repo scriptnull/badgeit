@@ -15,12 +15,15 @@ build:
     - godep restore
     - make test-formatters
     - make test-contracts
+    # Build binary and worker
+    - docker build -t "scriptnull/badgeit-worker:$BRANCH.$BUILD_NUMBER" .
+    - docker images
+    - docker push scriptnull/badgeit-worker:$BRANCH.$BUILD_NUMBER
+    # Build api
     - docker build -t "scriptnull/badgeit-api:$BRANCH.$BUILD_NUMBER" ./api/.
     - docker images
     - docker push scriptnull/badgeit-api:$BRANCH.$BUILD_NUMBER
-    - docker build -t "scriptnull/badgeit-worker:$BRANCH.$BUILD_NUMBER" ./worker/.
-    - docker images
-    - docker push scriptnull/badgeit-worker:$BRANCH.$BUILD_NUMBER
+
 
 integrations:
   hub:
