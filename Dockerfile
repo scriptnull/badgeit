@@ -9,4 +9,4 @@ RUN go-wrapper install    # "go install -v ./..."
 
 RUN go build
 
-CMD cd worker && go-wrapper run
+CMD cd worker && go run main.go
