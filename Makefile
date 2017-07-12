@@ -49,6 +49,10 @@ api-run:
 	go run ./api/main.go
 
 worker-run: build
+	export RABBIT_USERNAME="user" && \
+	export RABBIT_PASSWORD="password" && \
+	export RABBIT_HOSTNAME="localhost" && \
+	export RABBIT_PORT="5672" && \
 	go run ./worker/main.go
 
 docker-queue-init:

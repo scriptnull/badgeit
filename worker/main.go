@@ -19,7 +19,12 @@ func main() {
 	log.Println("Booting Badgeit worker")
 
 	log.Printf("Setting up connection to badgeit queue")
-	conn, err := amqp.Dial("amqp://user:password@localhost:5672/")
+	username := os.Getenv("RABBIT_USERNAME")
+	password := os.Getenv("RABBIT_PASSWORD")
+	hostname := os.Getenv("RABBIT_HOSTNAME")
+	port := os.Getenv("RABBIT_PORT")
+	conStr := fmt.Sprintf("amqp://%s:%s@%s:%s/", username, password, hostname, port)
+	conn, err := amqp.Dial(conStr)
 	failOnError(err, "Failed to connect to RabbitMQ")
 	defer conn.Close()
 
