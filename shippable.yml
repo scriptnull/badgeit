@@ -16,7 +16,8 @@ build:
     - make test-formatters
     - make test-contracts
     # Check if any error is not being handled
-    - errcheck
+    - go get -u github.com/kisielk/errcheck
+    - errcheck ./...
     # Build binary and worker
     - docker build -t "scriptnull/badgeit-worker:$BRANCH.$BUILD_NUMBER" .
     - docker images
