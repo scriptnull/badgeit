@@ -40,3 +40,20 @@ clean-samples: sample-github-clean sample-gitter-clean
 init: init-samples
 
 clean: clean-samples
+
+api-run:
+	export RABBIT_USERNAME="user" && \
+	export RABBIT_PASSWORD="password" && \
+	export RABBIT_HOSTNAME="localhost" && \
+	export RABBIT_PORT="5672" && \
+	go run ./api/main.go
+
+worker-run: build
+	export RABBIT_USERNAME="user" && \
+	export RABBIT_PASSWORD="password" && \
+	export RABBIT_HOSTNAME="localhost" && \
+	export RABBIT_PORT="5672" && \
+	go run ./worker/main.go
+
+docker-queue-init:
+	docker run -d --hostname my-rabbit --name badgeit-rabbit -p 5672:5672 -p 15672:15672 -e RABBITMQ_DEFAULT_USER=user -e RABBITMQ_DEFAULT_PASS=password rabbitmq:3-management

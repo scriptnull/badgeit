@@ -15,3 +15,14 @@ build:
     - godep restore
     - make test-formatters
     - make test-contracts
+    # Build binary, worker and api
+    - if [ "$IS_PULL_REQUEST" == false ]; then ./build_docker_images.sh; fi
+
+integrations:
+  hub:
+    - integrationName: Vishnu's Docker
+      type: docker
+      branches:
+        only:
+          - master
+          - dev
