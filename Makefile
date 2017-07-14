@@ -13,6 +13,9 @@ badge-gitter: build
 badge-npm: build
 	./badgeit samples/npm
 
+badge-bower: build
+	./badgeit samples/bower
+
 test-formatters:
 	go test -cover github.com/scriptnull/badgeit/formatters
 

@@ -47,6 +47,10 @@ func main() {
 	if err == nil {
 		badges = append(badges, gitterBadges...)
 	}
+	bowerBadges, err := contracts.NewBowerBadgeContract(path).Badges()
+	if err == nil {
+		badges = append(badges, bowerBadges...)
+	}
 
 	if len(badges) == 0 {
 		fmt.Println("0 badges detected.")
