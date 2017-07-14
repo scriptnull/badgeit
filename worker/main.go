@@ -82,7 +82,16 @@ func failOnError(err error, msg string) {
 	}
 }
 
+type taskResult struct {
+	CallbackURL string
+	// TODO: add callback headers
+	Badges string
+	Error  string
+}
+
 func executeTask(message []byte) {
+
+	// Parse input message
 	payload := struct {
 		Remote   string
 		Download string
@@ -94,12 +103,19 @@ func executeTask(message []byte) {
 		return
 	}
 
+	// Create temporary directory for download operation
 	dir, err := ioutil.TempDir("", "repo")
 	if err != nil {
 		log.Fatalln("Error creating temporary folder: ", err)
 	}
 	defer os.RemoveAll(dir)
 
+	// Initiate taskResult for reporting back to the callback server\
+	callbackResponse := taskResult{
+		CallbackURL: payload.Callback,
+	}
+
+	// Download the repository
 	d := downloader.NewDownloader(downloader.DownloaderOptions{
 		Type:   payload.Download,
 		Remote: payload.Remote,
@@ -108,38 +124,48 @@ func executeTask(message []byte) {
 	log.Println("Downloading the repository: ", payload.Remote)
 	err = d.Download()
 	if err != nil {
-		log.Println("Error Downloading repository: ", err)
-		// report error
+		errorStr := fmt.Sprintln("Error Downloading repository: ", err)
+		callbackResponse.Error = errorStr
+		callback(callbackResponse)
+		return
 	}
 	log.Println("Downloading complete @ ", dir)
 
 	wd, err := os.Getwd()
 	if err != nil {
-		log.Println("Error Getting Working Directory: ", err)
-		// report error
+		errorStr := fmt.Sprintln("Error Getting Working Directory: ", err)
+		callbackResponse.Error = errorStr
+		callback(callbackResponse)
+		return
 	}
 
 	result, err := exec.Command(filepath.Join(wd, "badgeit"), "-f", "all-json", dir).Output()
 	if err != nil {
-		log.Println("Error Executing badgeit: ", err)
-		// report error
+		errorStr := fmt.Sprintln("Error Executing badgeit: ", err)
+		callbackResponse.Error = errorStr
+		callback(callbackResponse)
+		return
 	}
 
-	err = callback(payload.Callback, result)
+	callbackResponse.Badges = string(result)
+	err = callback(callbackResponse)
 	if err != nil {
 		log.Println("Error While Posting callback: ", err)
 	}
 }
 
-func callback(responseURL string, buf []byte) error {
-	jsonPayload, err := json.Marshal(map[string]string{
-		"badges": string(buf),
-		"error":  "hello",
+func callback(result taskResult) error {
+	if result.Error == "" {
+		log.Print(result.Error)
+	}
+	jsonPayload, err := json.Marshal(map[string]interface{}{
+		"badges": result.Badges,
+		"error":  result.Error,
 	})
 	if err != nil {
 		return err
 	}
-	_, err = http.Post(responseURL, "application/json", strings.NewReader(string(jsonPayload)))
+	_, err = http.Post(result.CallbackURL, "application/json", strings.NewReader(string(jsonPayload)))
 	if err != nil {
 		return err
 	}
