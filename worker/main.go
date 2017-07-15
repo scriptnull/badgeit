@@ -7,10 +7,10 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"os/exec"
-	"path/filepath"
 	"strings"
 
+	"github.com/scriptnull/badgeit/common"
+	"github.com/scriptnull/badgeit/contracts"
 	"github.com/scriptnull/badgeit/worker/downloader"
 	"github.com/streadway/amqp"
 )
@@ -85,7 +85,7 @@ func failOnError(err error, msg string) {
 type taskResult struct {
 	CallbackURL string
 	// TODO: add callback headers
-	Badges string
+	Badges []common.Badge
 	Error  string
 }
 
@@ -131,23 +131,9 @@ func executeTask(message []byte) {
 	}
 	log.Println("Downloading complete @ ", dir)
 
-	wd, err := os.Getwd()
-	if err != nil {
-		errorStr := fmt.Sprintln("Error Getting Working Directory: ", err)
-		callbackResponse.Error = errorStr
-		callback(callbackResponse)
-		return
-	}
+	callbackResponse.Badges = contracts.PossibleBadges(dir)
+	log.Printf("Detected %d possible badges \n", len(callbackResponse.Badges))
 
-	result, err := exec.Command(filepath.Join(wd, "badgeit"), "-f", "all-json", dir).Output()
-	if err != nil {
-		errorStr := fmt.Sprintln("Error Executing badgeit: ", err)
-		callbackResponse.Error = errorStr
-		callback(callbackResponse)
-		return
-	}
-
-	callbackResponse.Badges = string(result)
 	err = callback(callbackResponse)
 	if err != nil {
 		log.Println("Error While Posting callback: ", err)

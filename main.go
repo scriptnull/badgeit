@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/scriptnull/badgeit/common"
 	"github.com/scriptnull/badgeit/contracts"
 	"github.com/scriptnull/badgeit/formatters"
 )
@@ -33,28 +32,7 @@ func main() {
 	}
 
 	// Check Contract aggreement and obtain eligible badges
-	var badges []common.Badge
-
-	npmBadges, err := contracts.NewNpmBadgeContract(path).Badges()
-	if err == nil {
-		badges = append(badges, npmBadges...)
-	}
-	githubBadges, err := contracts.NewGithubBadgeContract(path).Badges()
-	if err == nil {
-		badges = append(badges, githubBadges...)
-	}
-	gitterBadges, err := contracts.NewGitterBadgeContract(path).Badges()
-	if err == nil {
-		badges = append(badges, gitterBadges...)
-	}
-	bowerBadges, err := contracts.NewBowerBadgeContract(path).Badges()
-	if err == nil {
-		badges = append(badges, bowerBadges...)
-	}
-	travisBadges, err := contracts.NewTravisBadgeContract(path).Badges()
-	if err == nil {
-		badges = append(badges, travisBadges...)
-	}
+	badges := contracts.PossibleBadges(path)
 
 	if len(badges) == 0 {
 		fmt.Println("0 badges detected.")
@@ -71,7 +49,7 @@ func main() {
 		},
 	)
 	if err != nil {
-		fmt.Fprint(os.Stderr, "Invalid -f option.")
+		fmt.Fprint(os.Stderr, "Invalid -f option. \n")
 	}
 
 	result := formatter.Format()
