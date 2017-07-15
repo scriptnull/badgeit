@@ -51,6 +51,10 @@ func main() {
 	if err == nil {
 		badges = append(badges, bowerBadges...)
 	}
+	travisBadges, err := contracts.NewTravisBadgeContract(path).Badges()
+	if err == nil {
+		badges = append(badges, travisBadges...)
+	}
 
 	if len(badges) == 0 {
 		fmt.Println("0 badges detected.")

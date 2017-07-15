@@ -16,6 +16,9 @@ badge-npm: build
 badge-bower: build
 	./badgeit samples/bower
 
+badge-travis: build
+	./badgeit samples/travis
+
 test-formatters:
 	go test -cover github.com/scriptnull/badgeit/formatters
 
@@ -36,9 +39,15 @@ sample-gitter-clean:
 sample-gitter-init:
 	mkdir -p samples/gitter && cd samples/gitter && git init && git remote add origin git@github.com:scriptnull/badgeit.git
 
-init-samples: sample-github-init sample-gitter-init
+sample-travis-clean:
+	rm -rf samples/travis
 
-clean-samples: sample-github-clean sample-gitter-clean
+sample-travis-init:
+	mkdir -p samples/travis && cd samples/travis && git init && git remote add origin git@github.com:rust-lang/cargo.git && touch .travis.yml
+
+init-samples: sample-github-init sample-gitter-init sample-travis-init
+
+clean-samples: sample-github-clean sample-gitter-clean sample-travis-clean
 
 init: init-samples
 
