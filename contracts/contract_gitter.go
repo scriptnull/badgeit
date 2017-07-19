@@ -31,6 +31,8 @@ func (contract GitterBadgeContract) Badges() ([]common.Badge, error) {
 			Name:     "gitter chat room",
 			ImageURL: fmt.Sprintf("%s/%s.svg", gitterBadgesURL, repo.Slug),
 			LinkURL:  fmt.Sprintf("%s/%s", gitterURL, repo.Slug),
+			Group:    "gitter",
+			Tags:     []string{"chat", "webhook", "gitter", "communication", "notification"},
 		}
 		badges = append(badges, *chatRoom)
 	}

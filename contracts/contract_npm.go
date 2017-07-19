@@ -54,6 +54,7 @@ func (contract *NpmBadgeContract) Badges() ([]common.Badge, error) {
 			Name:     "npm weekly downloads",
 			ImageURL: fmt.Sprintf("%s/dw/%s.svg", shieldBaseURL, pj.Name),
 			LinkURL:  fmt.Sprintf("%s/%s", npmBaseURL, pj.Name),
+			Tags:     []string{"weekly", "downloads", "count"},
 		}
 		badges = append(badges, *weeklyDownloads)
 
@@ -61,6 +62,7 @@ func (contract *NpmBadgeContract) Badges() ([]common.Badge, error) {
 			Name:     "npm monthly downloads",
 			ImageURL: fmt.Sprintf("%s/dm/%s.svg", shieldBaseURL, pj.Name),
 			LinkURL:  fmt.Sprintf("%s/%s", npmBaseURL, pj.Name),
+			Tags:     []string{"monthly", "downloads", "count"},
 		}
 		badges = append(badges, *monthlyDownloads)
 
@@ -68,6 +70,7 @@ func (contract *NpmBadgeContract) Badges() ([]common.Badge, error) {
 			Name:     "npm yearly downloads",
 			ImageURL: fmt.Sprintf("%s/dy/%s.svg", shieldBaseURL, pj.Name),
 			LinkURL:  fmt.Sprintf("%s/%s", npmBaseURL, pj.Name),
+			Tags:     []string{"yearly", "downloads", "count"},
 		}
 		badges = append(badges, *yearlyDownloads)
 
@@ -75,6 +78,7 @@ func (contract *NpmBadgeContract) Badges() ([]common.Badge, error) {
 			Name:     "npm total downloads",
 			ImageURL: fmt.Sprintf("%s/dt/%s.svg", shieldBaseURL, pj.Name),
 			LinkURL:  fmt.Sprintf("%s/%s", npmBaseURL, pj.Name),
+			Tags:     []string{"total", "downloads", "count"},
 		}
 		badges = append(badges, *totalDownloads)
 
@@ -84,6 +88,7 @@ func (contract *NpmBadgeContract) Badges() ([]common.Badge, error) {
 			Name:     "npm version",
 			ImageURL: fmt.Sprintf("%s/v/%s.svg", shieldBaseURL, pj.Name),
 			LinkURL:  fmt.Sprintf("%s/%s", npmBaseURL, pj.Name),
+			Tags:     []string{"version"},
 		}
 		badges = append(badges, *normalVersion)
 
@@ -91,6 +96,7 @@ func (contract *NpmBadgeContract) Badges() ([]common.Badge, error) {
 			Name:     "npm next version",
 			ImageURL: fmt.Sprintf("%s/v/%s/next.svg", shieldBaseURL, pj.Name),
 			LinkURL:  fmt.Sprintf("%s/%s", npmBaseURL, pj.Name),
+			Tags:     []string{"next", "version"},
 		}
 		badges = append(badges, *nextVersion)
 
@@ -98,6 +104,7 @@ func (contract *NpmBadgeContract) Badges() ([]common.Badge, error) {
 			Name:     "npm canary version",
 			ImageURL: fmt.Sprintf("%s/v/%s/canary.svg", shieldBaseURL, pj.Name),
 			LinkURL:  fmt.Sprintf("%s/%s", npmBaseURL, pj.Name),
+			Tags:     []string{"canary", "version"},
 		}
 		badges = append(badges, *canaryVersion)
 
@@ -106,6 +113,7 @@ func (contract *NpmBadgeContract) Badges() ([]common.Badge, error) {
 			Name:     "license badge",
 			ImageURL: fmt.Sprintf("%s/l/%s.svg", shieldBaseURL, pj.Name),
 			LinkURL:  fmt.Sprintf("%s/%s", npmBaseURL, pj.Name),
+			Tags:     []string{"license"},
 		}
 		badges = append(badges, *licenseBadge)
 
@@ -114,8 +122,15 @@ func (contract *NpmBadgeContract) Badges() ([]common.Badge, error) {
 			Name:     "snyk - known vulnerabilities",
 			ImageURL: fmt.Sprintf("https://snyk.io/test/npm/%s/badge.svg", pj.Name),
 			LinkURL:  fmt.Sprintf("https://snyk.io/test/npm/%s", pj.Name),
+			Tags:     []string{"snyk", "security", "vulnerability"},
 		}
 		badges = append(badges, *snykBadge)
+	}
+
+	commonTags := []string{"npm", "package manager"}
+	for i := 0; i < len(badges); i++ {
+		badges[i].Group = "npm"
+		badges[i].Tags = append(badges[i].Tags, commonTags...)
 	}
 
 	return badges, nil

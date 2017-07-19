@@ -10,8 +10,14 @@ type Badge struct {
 	Name     string
 	ImageURL string
 	LinkURL  string
-	Style    string
-	Label    string
+	// Each contract belongs to one group
+	Group string
+	// Tags are more generalized search terminologies and combos used for filtering the badges
+	Tags []string
+	// Default style of the badge. NOTE: this is coupled to shields.io query variable
+	Style string
+	// Default label of the badge. NOTE: this is coupled to shields.io query variable
+	Label string
 }
 
 // Markdown returns the markdown representation of the badge

@@ -9,12 +9,14 @@ import (
 // GithubBadgeContract checks for github badges
 type GithubBadgeContract struct {
 	Path string
+	Name string
 }
 
 // NewGithubBadgeContract returns contract for checking various badges releated to github
 func NewGithubBadgeContract(path string) *GithubBadgeContract {
 	return &GithubBadgeContract{
 		Path: path,
+		Name: "github",
 	}
 }
 
@@ -34,6 +36,12 @@ func (contract GithubBadgeContract) Badges() ([]common.Badge, error) {
 		badges = append(badges, miscBadges...)
 	}
 
+	commonTags := []string{"github", "git", "source control management", "scm"}
+	for i := 0; i < len(badges); i++ {
+		badges[i].Group = "github"
+		badges[i].Tags = append(badges[i].Tags, commonTags...)
+	}
+
 	return badges, nil
 }
 
@@ -44,6 +52,7 @@ func generateDownloadBadges(repo common.GithubRepo) (badges []common.Badge) {
 		Name:     "github all releases",
 		ImageURL: fmt.Sprintf("%s/%s/total.svg", shieldBaseURL, repo.Slug),
 		LinkURL:  repo.URL,
+		Tags:     []string{"downloads", "releases"},
 	}
 	badges = append(badges, *allReleases)
 
@@ -51,6 +60,7 @@ func generateDownloadBadges(repo common.GithubRepo) (badges []common.Badge) {
 		Name:     "github latest release",
 		ImageURL: fmt.Sprintf("%s/%s/latest/total.svg", shieldBaseURL, repo.Slug),
 		LinkURL:  repo.URL,
+		Tags:     []string{"downloads", "releases"},
 	}
 	badges = append(badges, *latestRelease)
 
@@ -64,6 +74,7 @@ func generateVersionBadges(repo common.GithubRepo) (badges []common.Badge) {
 		Name:     "github tag",
 		ImageURL: fmt.Sprintf("%s/tag/%s.svg", shieldBaseURL, repo.Slug),
 		LinkURL:  repo.URL,
+		Tags:     []string{"version", "tag"},
 	}
 	badges = append(badges, *tag)
 
@@ -71,6 +82,7 @@ func generateVersionBadges(repo common.GithubRepo) (badges []common.Badge) {
 		Name:     "github release",
 		ImageURL: fmt.Sprintf("%s/release/%s.svg", shieldBaseURL, repo.Slug),
 		LinkURL:  repo.URL,
+		Tags:     []string{"version", "release"},
 	}
 	badges = append(badges, *release)
 
@@ -78,6 +90,7 @@ func generateVersionBadges(repo common.GithubRepo) (badges []common.Badge) {
 		Name:     "github pre release",
 		ImageURL: fmt.Sprintf("%s/release/%s/all.svg", shieldBaseURL, repo.Slug),
 		LinkURL:  repo.URL,
+		Tags:     []string{"version", "pre release"},
 	}
 	badges = append(badges, *preRelease)
 
@@ -93,6 +106,7 @@ func generateSocialBadges(repo common.GithubRepo) (badges []common.Badge) {
 		LinkURL:  repo.URL,
 		Style:    "social",
 		Label:    "Fork",
+		Tags:     []string{"social", "fork"},
 	}
 	badges = append(badges, *fork)
 
@@ -102,6 +116,7 @@ func generateSocialBadges(repo common.GithubRepo) (badges []common.Badge) {
 		LinkURL:  repo.URL,
 		Style:    "social",
 		Label:    "Star",
+		Tags:     []string{"social", "stars"},
 	}
 	badges = append(badges, *stars)
 
@@ -111,6 +126,7 @@ func generateSocialBadges(repo common.GithubRepo) (badges []common.Badge) {
 		LinkURL:  repo.URL,
 		Style:    "social",
 		Label:    "Watch",
+		Tags:     []string{"social", "watch"},
 	}
 	badges = append(badges, *watchers)
 
@@ -124,6 +140,7 @@ func generateMiscBadges(repo common.GithubRepo) (badges []common.Badge) {
 		Name:     "github open issues",
 		ImageURL: fmt.Sprintf("%s/issues/%s.svg", shieldBaseURL, repo.Slug),
 		LinkURL:  repo.URL,
+		Tags:     []string{"issues", "count", "open"},
 	}
 	badges = append(badges, *openIssues)
 
@@ -131,6 +148,7 @@ func generateMiscBadges(repo common.GithubRepo) (badges []common.Badge) {
 		Name:     "github closed issues",
 		ImageURL: fmt.Sprintf("%s/issues-closed/%s.svg", shieldBaseURL, repo.Slug),
 		LinkURL:  repo.URL,
+		Tags:     []string{"issues", "count", "closed"},
 	}
 	badges = append(badges, *closedIssues)
 
@@ -138,6 +156,7 @@ func generateMiscBadges(repo common.GithubRepo) (badges []common.Badge) {
 		Name:     "github open pr",
 		ImageURL: fmt.Sprintf("%s/issues-pr/%s.svg", shieldBaseURL, repo.Slug),
 		LinkURL:  repo.URL,
+		Tags:     []string{"pull request", "pr", "count", "open"},
 	}
 	badges = append(badges, *openPR)
 
@@ -145,6 +164,7 @@ func generateMiscBadges(repo common.GithubRepo) (badges []common.Badge) {
 		Name:     "github closed pr",
 		ImageURL: fmt.Sprintf("%s/issues-pr-closed/%s.svg", shieldBaseURL, repo.Slug),
 		LinkURL:  repo.URL,
+		Tags:     []string{"pull request", "pr", "count", "closed"},
 	}
 	badges = append(badges, *closedPR)
 
@@ -152,6 +172,7 @@ func generateMiscBadges(repo common.GithubRepo) (badges []common.Badge) {
 		Name:     "github contributors",
 		ImageURL: fmt.Sprintf("%s/contributors/%s.svg", shieldBaseURL, repo.Slug),
 		LinkURL:  repo.URL,
+		Tags:     []string{"contributors", "count"},
 	}
 	badges = append(badges, *contributors)
 
@@ -159,6 +180,7 @@ func generateMiscBadges(repo common.GithubRepo) (badges []common.Badge) {
 		Name:     "github license",
 		ImageURL: fmt.Sprintf("%s/license/%s.svg", shieldBaseURL, repo.Slug),
 		LinkURL:  repo.URL,
+		Tags:     []string{"license"},
 	}
 	badges = append(badges, *license)
 

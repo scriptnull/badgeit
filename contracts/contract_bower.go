@@ -50,6 +50,7 @@ func (contract *BowerBadgeContract) Badges() ([]common.Badge, error) {
 			Name:     "bower version",
 			ImageURL: fmt.Sprintf("%s/v/%s.svg", shieldBaseURL, bowerJSON.Name),
 			LinkURL:  fmt.Sprintf("%s", bowerJSON.Homepage),
+			Tags:     []string{"version"},
 		}
 		badges = append(badges, *normalVersion)
 
@@ -58,8 +59,15 @@ func (contract *BowerBadgeContract) Badges() ([]common.Badge, error) {
 			Name:     "license badge",
 			ImageURL: fmt.Sprintf("%s/l/%s.svg", shieldBaseURL, bowerJSON.Name),
 			LinkURL:  fmt.Sprintf("%s", bowerJSON.Homepage),
+			Tags:     []string{"license"},
 		}
 		badges = append(badges, *licenseBadge)
+	}
+
+	commonTags := []string{"bower", "package manager"}
+	for i := 0; i < len(badges); i++ {
+		badges[i].Group = "bower"
+		badges[i].Tags = append(badges[i].Tags, commonTags...)
 	}
 
 	return badges, nil

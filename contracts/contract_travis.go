@@ -38,6 +38,8 @@ func (contract TravisBadgeContract) Badges() ([]common.Badge, error) {
 			Name:     "travis badge",
 			ImageURL: fmt.Sprintf("%s/%s.svg", shieldsURL, repo.Slug),
 			LinkURL:  fmt.Sprintf("%s/%s", travisURL, repo.Slug),
+			Group:    "travis",
+			Tags:     []string{"travis", "continuous integration", "ci", "testing", "tests", "build", "status"},
 		}
 		badges = append(badges, *chatRoom)
 	}
