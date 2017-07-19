@@ -3,6 +3,9 @@ language: go
 go:
   - 1.8
 
+env:
+  - secure: eHc1Vpp7fapmsNj1CFbFefBTm4AiiGpCWrp9tGpEdVcwExGEodmaTDlL9yXtDue3x/EIcrtJqp8BLQjZLVI7zAjeK7Pv2KMNtJ3ECRCaP//HqnTiPxMtchnn0T+GBrLCBAzGYhHnvHgyFtLHSlxQHAegdemnn2QLsTJDl8/VGSw8Tg4CYg+kj5B3TP5ossm8MwaXKUmpyq2ffe+0kacbxs3Ei5Fg1RugiigmsbPK7VJG7HjeLHsMzU4yec4k2HF9lvQX1+4szAIIoY5+RRmv5IrqPRSepTsLHnKG5uDkbyvlS2GxegXSoiOuNs6j2X8IRDxAtGR+BqzCSHqK8tzMCg==
+
 build:
   ci:
     - which go
@@ -16,7 +19,12 @@ build:
     - make test-formatters
     - make test-contracts
     # Build binary, worker and api
-    - if [ "$IS_PULL_REQUEST" == false ]; then ./build_docker_images.sh; fi
+    # - if [ "$IS_PULL_REQUEST" == false ]; then ./build_docker_images.sh; fi
+
+    on_success:
+      - curl -H "Content-Type: application/json" -X POST -d '{"text":"Build $BUILD_NUMBER successful."}' $TELEGRAM_HORN
+    on_failed:
+      - curl -H "Content-Type: application/json" -X POST -d '{"text":"Build $BUILD_NUMBER failed."}' $TELEGRAM_HORN
 
 integrations:
   hub:
