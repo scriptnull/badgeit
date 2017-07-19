@@ -22,9 +22,9 @@ build:
     # - if [ "$IS_PULL_REQUEST" == false ]; then ./build_docker_images.sh; fi
 
   on_success:
-    - ./telegram.sh "Hello from Shippable builds"
+    - ./telegram.sh "Build $BUILD_NUMBER passed."
   on_failure:
-    - curl -X POST -d '{"text":"Build $BUILD_NUMBER failed."}' $TELEGRAM_HORN
+    - ./telegram.sh "Build $BUILD_NUMBER failed."
 
 integrations:
   hub:
