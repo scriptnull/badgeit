@@ -21,10 +21,10 @@ build:
     # Build binary, worker and api
     # - if [ "$IS_PULL_REQUEST" == false ]; then ./build_docker_images.sh; fi
 
-    on_success:
-      - curl -H "Content-Type: application/json" -X POST -d '{"text":"Build $BUILD_NUMBER successful."}' $TELEGRAM_HORN
-    on_failed:
-      - curl -H "Content-Type: application/json" -X POST -d '{"text":"Build $BUILD_NUMBER failed."}' $TELEGRAM_HORN
+  on_success:
+    - curl -H "Content-Type: application/json" -X POST -d '{"text":"Build $BUILD_NUMBER successful."}' $TELEGRAM_HORN
+  on_failed:
+    - curl -H "Content-Type: application/json" -X POST -d '{"text":"Build $BUILD_NUMBER failed."}' $TELEGRAM_HORN
 
 integrations:
   hub:
