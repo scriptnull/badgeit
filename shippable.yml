@@ -11,21 +11,20 @@ build:
     - which go
     - echo $GOROOT
     - echo $GOPATH
-    # - ls
-    # - pwd
-    # - make init
-    # - go get github.com/tools/godep
-    # - godep restore
-    # - make test-formatters
-    # - make test-contracts
-    # Build binary, worker and api
-    # - if [ "$IS_PULL_REQUEST" == false ]; then ./build_docker_images.sh; fi
+    - ls
+    - pwd
+    - make init
+    - go get github.com/tools/godep
+    - godep restore
+    - make test-formatters
+    - make test-contracts
+    Build binary, worker and api
+    - if [ "$IS_PULL_REQUEST" == false ]; then ./build_docker_images.sh; fi
 
   on_success:
-    - ./telegram.sh " -- Repository - $SHIPPABLE_REPO_SLUG \n -- Build - $BUILD_NUMBER \n -- Link - $BUILD_URL \n -- Status - SUCESS ':green_heart:'"
+    - ./telegram.sh " -- Repository - $SHIPPABLE_REPO_SLUG \n -- Build - $BUILD_NUMBER \n -- Link - $BUILD_URL \n -- Status - PASSED"
   on_failure:
-    - export FAILURE_SMILEY=":green_heart:"
-    - ./telegram.sh "CI - Shippable \n Repository - $SHIPPABLE_REPO_SLUG \n Build - $BUILD_NUMBER \n Status - FAILED $FAILURE_SMILEY \n Link - $BUILD_URL"
+    - ./telegram.sh " -- Repository - $SHIPPABLE_REPO_SLUG \n -- Build - $BUILD_NUMBER \n -- Link - $BUILD_URL \n -- Status - FAILED"
 
 integrations:
   hub:
