@@ -22,7 +22,7 @@ build:
     # - if [ "$IS_PULL_REQUEST" == false ]; then ./build_docker_images.sh; fi
 
   on_success:
-    - curl -X POST -d '{"text":"Build $BUILD_NUMBER successful."}' $TELEGRAM_HORN
+    - curl -X POST -H "Content-Type: application/json" -d '{"text":"Build $BUILD_NUMBER successful."}' $TELEGRAM_HORN
   on_failure:
     - curl -X POST -d '{"text":"Build $BUILD_NUMBER failed."}' $TELEGRAM_HORN
 
