@@ -18,7 +18,7 @@ build:
     - godep restore
     - make test-formatters
     - make test-contracts
-    Build binary, worker and api
+    # Build binary, worker and api
     - if [ "$IS_PULL_REQUEST" == false ]; then ./build_docker_images.sh; fi
 
   on_success:
