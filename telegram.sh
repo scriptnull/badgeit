@@ -1,0 +1,1 @@
+curl -H "Content-Type: application/json" -X POST -d $1 $TELEGRAM_HORN
