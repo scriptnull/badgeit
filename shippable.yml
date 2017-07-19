@@ -22,7 +22,7 @@ build:
     # - if [ "$IS_PULL_REQUEST" == false ]; then ./build_docker_images.sh; fi
 
   on_success:
-    - ./telegram.sh "Build $BUILD_NUMBER passed."
+    - ./telegram.sh "CI - Shippable \n Repository - $SHIPPABLE_REPO_SLUG \n Build - $BUILD_NUMBER \n Status - SUCCESS :green_heart: \n Link - $BUILD_URL"
   on_failure:
     - ./telegram.sh "Build $BUILD_NUMBER failed."
 
