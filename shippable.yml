@@ -24,7 +24,7 @@ build:
   on_success:
     - export SUCCESS_SMILEY=":green_heart:"
     # - ./telegram.sh "CI - Shippable \n Repository - $SHIPPABLE_REPO_SLUG \n Build - $BUILD_NUMBER \n Status - SUCCESS $SUCCESS_SMILEY \n"
-    - ./telegram.sh "CI - Shippable \n Build - $BUILD_NUMBER"
+    - ./telegram.sh "* Repository - $SHIPPABLE_REPO_SLUG \n * Build - $BUILD_NUMBER"
   on_failure:
     - export FAILURE_SMILEY=":green_heart:"
     - ./telegram.sh "CI - Shippable \n Repository - $SHIPPABLE_REPO_SLUG \n Build - $BUILD_NUMBER \n Status - FAILED $FAILURE_SMILEY \n Link - $BUILD_URL"
