@@ -84,6 +84,7 @@ func failOnError(err error, msg string) {
 
 type taskResult struct {
 	CallbackURL string
+	RemoteURL   string
 	// TODO: add callback headers
 	Badges []common.Badge
 	Error  string
@@ -113,6 +114,7 @@ func executeTask(message []byte) {
 	// Initiate taskResult for reporting back to the callback server\
 	callbackResponse := taskResult{
 		CallbackURL: payload.Callback,
+		RemoteURL:   payload.Remote,
 	}
 
 	// Download the repository
@@ -147,6 +149,7 @@ func callback(result taskResult) error {
 	jsonPayload, err := json.Marshal(map[string]interface{}{
 		"badges": result.Badges,
 		"error":  result.Error,
+		"remote": result.RemoteURL,
 	})
 	if err != nil {
 		return err
