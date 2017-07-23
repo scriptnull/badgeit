@@ -8,19 +8,19 @@ import (
 	"github.com/scriptnull/badgeit/common"
 )
 
-// TravisBadgeContract checks for gitter badges
+// TravisBadgeContract checks for travis badges
 type TravisBadgeContract struct {
 	Path string
 }
 
-// NewTravisBadgeContract returns contract for checking various badges related to gitter
+// NewTravisBadgeContract returns contract for checking various badges related to travis
 func NewTravisBadgeContract(path string) *TravisBadgeContract {
 	return &TravisBadgeContract{
 		Path: path,
 	}
 }
 
-// Badges returns the badges for gitter
+// Badges returns the badges for travis
 func (contract TravisBadgeContract) Badges() ([]common.Badge, error) {
 	// check if .travis.yml exists
 	if _, err := os.Stat(filepath.Join(contract.Path, ".travis.yml")); os.IsNotExist(err) {

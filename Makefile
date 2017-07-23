@@ -19,6 +19,9 @@ badge-bower: build
 badge-travis: build
 	./badgeit samples/travis
 
+badge-circle: build
+	./badgeit samples/circle
+
 test-formatters:
 	go test -cover github.com/scriptnull/badgeit/formatters
 
@@ -45,9 +48,15 @@ sample-travis-clean:
 sample-travis-init:
 	mkdir -p samples/travis && cd samples/travis && git init && git remote add origin git@github.com:rust-lang/cargo.git && touch .travis.yml
 
-init-samples: sample-github-init sample-gitter-init sample-travis-init
+sample-circle-clean:
+	rm -rf samples/circle
 
-clean-samples: sample-github-clean sample-gitter-clean sample-travis-clean
+sample-circle-init:
+	mkdir -p samples/circle && cd samples/circle && git init && git remote add origin git@github.com:circleci/frontend.git && touch circle.yml
+
+init-samples: sample-github-init sample-gitter-init sample-travis-init sample-circle-init
+
+clean-samples: sample-github-clean sample-gitter-clean sample-travis-clean sample-circle-clean
 
 init: init-samples
 

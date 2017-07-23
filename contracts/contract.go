@@ -27,6 +27,10 @@ func PossibleBadges(path string) []common.Badge {
 	if err == nil {
 		badges = append(badges, travisBadges...)
 	}
+	circleBadges, err := NewCircleBadgeContract(path).Badges()
+	if err == nil {
+		badges = append(badges, circleBadges...)
+	}
 
 	return badges
 }
