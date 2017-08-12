@@ -146,7 +146,7 @@ func executeTask(message []byte) {
 
 func callback(result taskResult) error {
 	if result.Error == "" {
-		log.Print(result.Error)
+		log.Println(result.Error)
 	}
 	jsonPayload, err := json.Marshal(map[string]interface{}{
 		"badges": result.Badges,
@@ -156,6 +156,7 @@ func callback(result taskResult) error {
 	if err != nil {
 		return err
 	}
+	log.Println("Response Payload ", string(jsonPayload))
 	_, err = http.Post(result.CallbackURL, "application/json", strings.NewReader(string(jsonPayload)))
 	if err != nil {
 		return err
