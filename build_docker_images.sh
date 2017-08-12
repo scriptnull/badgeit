@@ -1,5 +1,5 @@
 API_CHANGED_FILE_COUNT=`git diff --name-only HEAD~1..HEAD api/ | wc -l`;
-WORKER_CHANGED_FILE_COUNT=`git diff --name-only HEAD~1..HEAD worker/ | wc -l`;
+WORKER_CHANGED_FILE_COUNT=`git diff --name-only HEAD~1..HEAD worker/ contracts/ common/ formatters/ | wc -l`;
 
 if [ $API_CHANGED_FILE_COUNT -gt 0 ]; then
     echo "API has changes"
