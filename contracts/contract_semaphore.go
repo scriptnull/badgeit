@@ -32,7 +32,7 @@ func (contract SemaphoreBadgeContract) Badges() ([]common.Badge, error) {
 			Name:     "semaphore master badge",
 			ImageURL: fmt.Sprintf("%s/%s/branches/master/badge.svg", semaphoreBadgesURL, repo.Slug),
 			LinkURL:  fmt.Sprintf("%s/%s", semaphoreURL, repo.Slug),
-			Group:    "Semaphore",
+			Group:    "semaphore",
 			Tags:     []string{"semaphore", "semaphoreci", "continuous integration", "ci", "testing", "tests", "build", "status"},
 		}
 
