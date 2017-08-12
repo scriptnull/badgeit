@@ -22,6 +22,9 @@ badge-travis: build
 badge-circle: build
 	./badgeit samples/circle
 
+badge-semaphore: build
+	./badgeit samples/semaphore
+
 test-formatters:
 	go test -cover github.com/scriptnull/badgeit/formatters
 
@@ -54,9 +57,16 @@ sample-circle-clean:
 sample-circle-init:
 	mkdir -p samples/circle && cd samples/circle && git init && git remote add origin git@github.com:circleci/frontend.git && touch circle.yml
 
-init-samples: sample-github-init sample-gitter-init sample-travis-init sample-circle-init
+sample-semaphore-clean:
+	rm -rf samples/semaphore
 
-clean-samples: sample-github-clean sample-gitter-clean sample-travis-clean sample-circle-clean
+sample-semaphore-init:
+	mkdir -p samples/semaphore/valid  samples/semaphore/invalid && cd samples/semaphore/valid && git init && git remote add origin git@github.com:argonlaser/badgeit-front.git && \
+	cd ../invalid && git init && git remote add origin git@github.com:scriptnull/compilex.git;
+
+init-samples: sample-github-init sample-gitter-init sample-travis-init sample-circle-init sample-semaphore-init
+
+clean-samples: sample-github-clean sample-gitter-clean sample-travis-clean sample-circle-clean sample-semaphore-clean
 
 init: init-samples
 
