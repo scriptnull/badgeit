@@ -1,20 +1,19 @@
 package downloader
 
 import (
-	"os"
-
-	git "gopkg.in/src-d/go-git.v4"
+	"os/exec"
 )
 
+// GitDownloader downloads a git repository
 type GitDownloader struct {
 	DownloaderOptions
 }
 
+// Download clones the git repository
 func (down *GitDownloader) Download() error {
-	_, err := git.PlainClone(down.Path, false, &git.CloneOptions{
-		URL:      down.Remote,
-		Progress: os.Stdout,
-	})
+	cmd := exec.Command("git", "clone", down.Remote)
+	cmd.Dir = down.Path
+	err := cmd.Run()
 	if err != nil {
 		return err
 	}
