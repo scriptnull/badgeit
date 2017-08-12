@@ -23,7 +23,7 @@ badge-circle: build
 	./badgeit samples/circle
 
 badge-semaphore: build
-	./badgeit samples/semaphore
+	./badgeit samples/semaphore/valid
 
 test-formatters:
 	go test -cover github.com/scriptnull/badgeit/formatters

@@ -31,6 +31,10 @@ func PossibleBadges(path string) []common.Badge {
 	if err == nil {
 		badges = append(badges, circleBadges...)
 	}
+	semaphoreBadges, err := NewSemaphoreBadgeContract(path).Badges()
+	if err == nil {
+		badges = append(badges, semaphoreBadges...)
+	}
 
 	return badges
 }
