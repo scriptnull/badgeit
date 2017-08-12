@@ -11,7 +11,7 @@ type GitDownloader struct {
 
 // Download clones the git repository
 func (down *GitDownloader) Download() error {
-	cmd := exec.Command("git", "clone", down.Remote)
+	cmd := exec.Command("git", "clone", down.Remote, ".")
 	cmd.Dir = down.Path
 	err := cmd.Run()
 	if err != nil {

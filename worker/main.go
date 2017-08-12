@@ -106,7 +106,6 @@ func executeTask(message []byte) {
 
 	// Create temporary directory for download operation
 	cloneDir := os.Getenv("CLONE_DIR")
-	log.Println("CLONE_DIR is ", cloneDir)
 	dir, err := ioutil.TempDir(cloneDir, "repo")
 	if err != nil {
 		log.Fatalln("Error creating temporary folder: ", err)
@@ -125,7 +124,7 @@ func executeTask(message []byte) {
 		Remote: payload.Remote,
 		Path:   dir,
 	})
-	log.Println("Downloading the repository: ", payload.Remote)
+	log.Println("Downloading the repository: ", payload.Remote, " @ ", dir)
 	err = d.Download()
 	if err != nil {
 		errorStr := fmt.Sprintln("Error Downloading repository: ", err)
