@@ -105,7 +105,9 @@ func executeTask(message []byte) {
 	}
 
 	// Create temporary directory for download operation
-	dir, err := ioutil.TempDir("", "repo")
+	cloneDir := os.Getenv("CLONE_DIR")
+	log.Println("CLONE_DIR is ", cloneDir)
+	dir, err := ioutil.TempDir(cloneDir, "repo")
 	if err != nil {
 		log.Fatalln("Error creating temporary folder: ", err)
 	}

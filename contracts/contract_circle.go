@@ -43,7 +43,7 @@ func (contract CircleBadgeContract) Badges() ([]common.Badge, error) {
 			Name:     "circle badge",
 			ImageURL: fmt.Sprintf("%s/github/%s.svg", shieldsURL, repo.Slug),
 			LinkURL:  fmt.Sprintf("%s/gh/%s", circleURL, repo.Slug),
-			Group:    "circleci",
+			Group:    "circle ci",
 			Tags:     []string{"circle", "circleci", "continuous integration", "ci", "testing", "tests", "build", "status"},
 		}
 		badges = append(badges, *chatRoom)
