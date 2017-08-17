@@ -9,77 +9,38 @@ import (
 	"os"
 	"strings"
 
+	"github.com/garyburd/redigo/redis"
 	"github.com/scriptnull/badgeit/common"
 	"github.com/scriptnull/badgeit/contracts"
 	"github.com/scriptnull/badgeit/worker/downloader"
-	"github.com/streadway/amqp"
 )
 
 func main() {
 	log.Println("Booting Badgeit worker")
 
-	log.Printf("Setting up connection to badgeit queue")
-	username := os.Getenv("RABBIT_USERNAME")
-	password := os.Getenv("RABBIT_PASSWORD")
-	hostname := os.Getenv("RABBIT_HOSTNAME")
-	port := os.Getenv("RABBIT_PORT")
-	conStr := fmt.Sprintf("amqp://%s:%s@%s:%s/", username, password, hostname, port)
-	conn, err := amqp.Dial(conStr)
-	failOnError(err, "Failed to connect to RabbitMQ")
-	defer conn.Close()
+	redisConn, err := redis.Dial("tcp", fmt.Sprintf("%s:%s", os.Getenv("REDIS_HOSTNAME"), os.Getenv("REDIS_PORT")))
+	if err != nil {
+		log.Fatalln("Failed to initialize redis message queue", err)
+	}
+	defer redisConn.Close()
+	log.Println("Initialized Redis Message Queue successfully")
 
-	ch, err := conn.Channel()
-	failOnError(err, "Failed to open a channel")
-	defer ch.Close()
-
-	q, err := ch.QueueDeclare(
-		"badgeit.worker", // name
-		true,             // durable
-		false,            // delete when unused
-		false,            // exclusive
-		false,            // no-wait
-		nil,              // arguments
-	)
-	failOnError(err, "Failed to declare a queue")
-
-	err = ch.Qos(
-		1,     // prefetch count
-		0,     // prefetch size
-		false, // global
-	)
-	failOnError(err, "Failed to set QoS")
-
-	msgs, err := ch.Consume(
-		q.Name, // queue
-		"",     // consumer
-		false,  // auto-ack
-		false,  // exclusive
-		false,  // no-local
-		false,  // no-wait
-		nil,    // args
-	)
-	failOnError(err, "Failed to register a consumer")
-
-	forever := make(chan bool)
-
-	go func() {
-		for d := range msgs {
-			log.Printf("Starting Task for message: %s", d.Body)
-			executeTask(d.Body)
-			log.Printf("Finished Task for message: %s", d.Body)
-			d.Ack(false)
-		}
-	}()
-
-	log.Printf("Booted Badgeit Worker. To exit press CTRL+C")
-	<-forever
+	listenRedisTaskQueue(redisConn)
 }
 
-func failOnError(err error, msg string) {
+func listenRedisTaskQueue(redisConn redis.Conn) {
+	log.Println("==== ==== ==== ====")
+	log.Println("Waiting for message to arrive on badge:worker redis queue")
+	log.Println("==== ==== ==== ====")
+	payload, err := redis.Strings(redisConn.Do("BRPOP", "badge:worker", 0))
 	if err != nil {
-		log.Fatalf("%s: %s", msg, err)
-		panic(fmt.Sprintf("%s: %s", msg, err))
+		log.Fatalln("Failed to do blocking RPOP on badge:worker", err)
 	}
+	log.Printf("Recieved Payload %+v", payload)
+	taskPayload := payload[1]
+	log.Printf("Starting Task for message: %s", taskPayload)
+	executeTask([]byte(taskPayload), redisConn)
+	log.Printf("Finished Task for message: %s", taskPayload)
 }
 
 type taskResult struct {
@@ -90,7 +51,7 @@ type taskResult struct {
 	Error  string
 }
 
-func executeTask(message []byte) {
+func executeTask(message []byte, redisConn redis.Conn) {
 
 	// Parse input message
 	payload := struct {
@@ -141,6 +102,8 @@ func executeTask(message []byte) {
 	if err != nil {
 		log.Println("Error While Posting callback: ", err)
 	}
+
+	listenRedisTaskQueue(redisConn)
 }
 
 func callback(result taskResult) error {

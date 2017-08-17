@@ -87,6 +87,8 @@ worker-run: build
 	export RABBIT_HOSTNAME="localhost" && \
 	export RABBIT_PORT="5672" && \
 	export CLONE_DIR="`pwd`/worker/storage" && \
+	export REDIS_HOSTNAME="localhost" && \
+	export REDIS_PORT="6379" && \
 	go run ./worker/main.go
 
 queue-run:
