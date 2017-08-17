@@ -11,7 +11,6 @@ import (
 	"github.com/garyburd/redigo/redis"
 
 	"github.com/gin-gonic/gin"
-	"github.com/streadway/amqp"
 )
 
 const (
@@ -20,17 +19,7 @@ const (
 )
 
 func main() {
-
 	log.Println("Booting Badgeit API server")
-
-	log.Println("Initializing Message Queue")
-	amqpConnection, workerQueue, workerChannel, err := initMessageQueue()
-	if err != nil {
-		log.Fatalln("Failed to initialize message queue", err)
-	}
-	defer amqpConnection.Close()
-	defer workerChannel.Close()
-	log.Println("Initialized Message Queue successfully")
 
 	log.Println("Initializing Redis Message Queue")
 	conn, err := redis.Dial("tcp", fmt.Sprintf("%s:%s", os.Getenv("REDIS_HOSTNAME"), os.Getenv("REDIS_PORT")))
@@ -41,41 +30,10 @@ func main() {
 	log.Println("Initialized Redis Message Queue successfully")
 
 	log.Println("Initializing API Server")
-	initAPIServer(workerQueue, workerChannel, conn)
+	initAPIServer(conn)
 }
 
-func initMessageQueue() (*amqp.Connection, *amqp.Queue, *amqp.Channel, error) {
-	username := os.Getenv("RABBIT_USERNAME")
-	password := os.Getenv("RABBIT_PASSWORD")
-	hostname := os.Getenv("RABBIT_HOSTNAME")
-	port := os.Getenv("RABBIT_PORT")
-	conStr := fmt.Sprintf("amqp://%s:%s@%s:%s/", username, password, hostname, port)
-	conn, err := amqp.Dial(conStr)
-	if err != nil {
-		return nil, nil, nil, err
-	}
-
-	ch, err := conn.Channel()
-	if err != nil {
-		return nil, nil, nil, err
-	}
-
-	q, err := ch.QueueDeclare(
-		"badgeit.worker", // name
-		true,             // durable
-		false,            // delete when unused
-		false,            // exclusive
-		false,            // no-wait
-		nil,              // arguments
-	)
-	if err != nil {
-		return nil, nil, nil, err
-	}
-
-	return conn, &q, ch, nil
-}
-
-func initAPIServer(workerQueue *amqp.Queue, workerChannel *amqp.Channel, redisConn redis.Conn) {
+func initAPIServer(redisConn redis.Conn) {
 	r := gin.Default()
 
 	r.POST("/test/callback", func(c *gin.Context) {
@@ -130,25 +88,7 @@ func initAPIServer(workerQueue *amqp.Queue, workerChannel *amqp.Channel, redisCo
 
 		// queue a task for the worker
 		jsonPayload, _ := json.Marshal(payload)
-		err := workerChannel.Publish(
-			"",               // exchange
-			workerQueue.Name, // routing key
-			false,            // mandatory
-			false,
-			amqp.Publishing{
-				DeliveryMode: amqp.Persistent,
-				ContentType:  "text/plain",
-				Body:         []byte(jsonPayload),
-			})
-		if err != nil {
-			log.Println("Unable to queue request", err)
-			c.JSON(http.StatusServiceUnavailable, gin.H{
-				"error": "Unable to queue request",
-			})
-			return
-		}
-
-		_, err = redisConn.Do("LPUSH", "badge:worker", []byte(jsonPayload))
+		_, err := redisConn.Do("LPUSH", "badge:worker", []byte(jsonPayload))
 		if err != nil {
 			log.Println("Unable to queue request", err)
 			c.JSON(http.StatusServiceUnavailable, gin.H{

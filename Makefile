@@ -73,19 +73,11 @@ init: init-samples
 clean: clean-samples
 
 api-run:
-	export RABBIT_USERNAME="user" && \
-	export RABBIT_PASSWORD="password" && \
-	export RABBIT_HOSTNAME="localhost" && \
-	export RABBIT_PORT="5672" && \
 	export REDIS_HOSTNAME="localhost" && \
 	export REDIS_PORT="6379" && \
 	go run ./api/main.go
 
 worker-run: build
-	export RABBIT_USERNAME="user" && \
-	export RABBIT_PASSWORD="password" && \
-	export RABBIT_HOSTNAME="localhost" && \
-	export RABBIT_PORT="5672" && \
 	export CLONE_DIR="`pwd`/worker/storage" && \
 	export REDIS_HOSTNAME="localhost" && \
 	export REDIS_PORT="6379" && \
