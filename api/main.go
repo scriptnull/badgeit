@@ -8,6 +8,8 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/garyburd/redigo/redis"
+
 	"github.com/gin-gonic/gin"
 	"github.com/streadway/amqp"
 )
@@ -30,8 +32,16 @@ func main() {
 	defer workerChannel.Close()
 	log.Println("Initialized Message Queue successfully")
 
+	log.Println("Initializing Redis Message Queue")
+	conn, err := redis.Dial("tcp", fmt.Sprintf("%s:%s", os.Getenv("REDIS_HOSTNAME"), os.Getenv("REDIS_PORT")))
+	if err != nil {
+		log.Fatalln("Failed to initialize redis message queue", err)
+	}
+	defer conn.Close()
+	log.Println("Initialized Redis Message Queue successfully")
+
 	log.Println("Initializing API Server")
-	initAPIServer(workerQueue, workerChannel)
+	initAPIServer(workerQueue, workerChannel, conn)
 }
 
 func initMessageQueue() (*amqp.Connection, *amqp.Queue, *amqp.Channel, error) {
@@ -65,7 +75,7 @@ func initMessageQueue() (*amqp.Connection, *amqp.Queue, *amqp.Channel, error) {
 	return conn, &q, ch, nil
 }
 
-func initAPIServer(workerQueue *amqp.Queue, workerChannel *amqp.Channel) {
+func initAPIServer(workerQueue *amqp.Queue, workerChannel *amqp.Channel, redisConn redis.Conn) {
 	r := gin.Default()
 
 	r.POST("/test/callback", func(c *gin.Context) {
@@ -130,6 +140,15 @@ func initAPIServer(workerQueue *amqp.Queue, workerChannel *amqp.Channel) {
 				ContentType:  "text/plain",
 				Body:         []byte(jsonPayload),
 			})
+		if err != nil {
+			log.Println("Unable to queue request", err)
+			c.JSON(http.StatusServiceUnavailable, gin.H{
+				"error": "Unable to queue request",
+			})
+			return
+		}
+
+		_, err = redisConn.Do("LPUSH", "badge:worker", []byte(jsonPayload))
 		if err != nil {
 			log.Println("Unable to queue request", err)
 			c.JSON(http.StatusServiceUnavailable, gin.H{

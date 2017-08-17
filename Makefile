@@ -77,6 +77,8 @@ api-run:
 	export RABBIT_PASSWORD="password" && \
 	export RABBIT_HOSTNAME="localhost" && \
 	export RABBIT_PORT="5672" && \
+	export REDIS_HOSTNAME="localhost" && \
+	export REDIS_PORT="6379" && \
 	go run ./api/main.go
 
 worker-run: build
@@ -89,3 +91,6 @@ worker-run: build
 
 queue-run:
 	docker run -d --hostname my-rabbit --name badgeit-rabbit -p 5672:5672 -p 15672:15672 -e RABBITMQ_DEFAULT_USER=user -e RABBITMQ_DEFAULT_PASS=password rabbitmq:3-management
+
+redis-run:
+	docker run --name badgeit-redis -p 6379:6379 -d redis
