@@ -18,6 +18,13 @@ import (
 func main() {
 	log.Println("Booting Badgeit worker")
 
+	log.Println("Checking status of clone dir")
+	cloneDir := os.Getenv("CLONE_DIR")
+	if _, err := os.Stat(cloneDir); os.IsNotExist(err) {
+		log.Fatalln("CLONE_DIR is not present. Error: ", err)
+	}
+	log.Println("Cloning Dir found")
+
 	redisConn, err := redis.Dial("tcp", fmt.Sprintf("%s:%s", os.Getenv("REDIS_HOSTNAME"), os.Getenv("REDIS_PORT")))
 	if err != nil {
 		log.Fatalln("Failed to initialize redis message queue", err)
@@ -41,6 +48,8 @@ func listenRedisTaskQueue(redisConn redis.Conn) {
 	log.Printf("Starting Task for message: %s", taskPayload)
 	executeTask([]byte(taskPayload), redisConn)
 	log.Printf("Finished Task for message: %s", taskPayload)
+
+	listenRedisTaskQueue(redisConn)
 }
 
 type taskResult struct {
@@ -102,8 +111,6 @@ func executeTask(message []byte, redisConn redis.Conn) {
 	if err != nil {
 		log.Println("Error While Posting callback: ", err)
 	}
-
-	listenRedisTaskQueue(redisConn)
 }
 
 func callback(result taskResult) error {
