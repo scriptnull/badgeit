@@ -7,6 +7,7 @@ if [ $API_CHANGED_FILE_COUNT -gt 0 ]; then
     docker build -t "scriptnull/badgeit-api:$BRANCH.$BUILD_NUMBER" ./api/.
     docker images
     docker push scriptnull/badgeit-api:$BRANCH.$BUILD_NUMBER
+    ./telegram.sh "New API image available: scriptnull/badgeit-api:$BRANCH.$BUILD_NUMBER"
 fi
 
 if [ $WORKER_CHANGED_FILE_COUNT -gt 0 ]; then
@@ -15,5 +16,6 @@ if [ $WORKER_CHANGED_FILE_COUNT -gt 0 ]; then
     docker build -t "scriptnull/badgeit-worker:$BRANCH.$BUILD_NUMBER" .
     docker images
     docker push scriptnull/badgeit-worker:$BRANCH.$BUILD_NUMBER
+    ./telegram.sh "New Worker image available: scriptnull/badgeit-api:$BRANCH.$BUILD_NUMBER"
 fi
 

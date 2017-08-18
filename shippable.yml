@@ -8,6 +8,7 @@ env:
 
 build:
   ci:
+    - ./telegram.sh " -- Repository - $SHIPPABLE_REPO_SLUG \n -- Build - $BUILD_NUMBER \n -- Link - $BUILD_URL \n -- Status - STARTED"
     - which go
     - echo $GOROOT
     - echo $GOPATH
