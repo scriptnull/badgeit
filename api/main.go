@@ -87,10 +87,33 @@ func initAPIServer(redisConn redis.Conn) {
 		}
 
 		// check if worker is already working on badge computation
+		alreadyProcessing, err := redis.Bool(redisConn.Do("SISMEMBER", "badgeit:processingRemotes", remote))
+		if err != nil {
+			log.Println("Unable to check if remote is already processing due to err", err)
+		}
+		if alreadyProcessing {
+			payload["status"] = "already processing"
+			c.JSON(http.StatusOK, payload)
+			return
+		}
+
+		alreadyQueued, err := redis.Bool(redisConn.Do("SISMEMBER", "badgeit:queuedRemotes", remote))
+		if err != nil {
+			log.Println("Unable to check if remote is already queued due to err", err)
+		}
+		if alreadyQueued {
+			payload["status"] = "already queued for processing"
+			c.JSON(http.StatusOK, payload)
+			return
+		}
 
 		// queue a task for the worker
 		jsonPayload, _ := json.Marshal(payload)
-		_, err := redisConn.Do("LPUSH", "badge:worker", []byte(jsonPayload))
+
+		redisConn.Send("MULTI")
+		redisConn.Send("SADD", "badgeit:queuedRemotes", remote)
+		redisConn.Send("LPUSH", "badge:worker", []byte(jsonPayload))
+		_, err = redisConn.Do("EXEC")
 		if err != nil {
 			log.Println("Unable to queue request", err)
 			c.JSON(http.StatusServiceUnavailable, gin.H{
@@ -99,6 +122,7 @@ func initAPIServer(redisConn redis.Conn) {
 			return
 		}
 
+		payload["status"] = "successfully queued for processing"
 		c.JSON(http.StatusAccepted, payload)
 		return
 	})

@@ -9,11 +9,29 @@ import (
 	"os"
 	"strings"
 
+	"github.com/nu7hatch/gouuid"
+
 	"github.com/garyburd/redigo/redis"
 	"github.com/scriptnull/badgeit/common"
 	"github.com/scriptnull/badgeit/contracts"
 	"github.com/scriptnull/badgeit/worker/downloader"
 )
+
+var workerID string
+
+type workerStatus string
+
+const (
+	statusInitialized workerStatus = "INITIALIZED"
+	statusWaiting     workerStatus = "WAITING"
+	statusProcessing  workerStatus = "PROCESSING"
+)
+
+func setWorkerStatus(conn redis.Conn, status workerStatus) error {
+	key := fmt.Sprintf("worker:%s:status", workerID)
+	_, err := redis.String(conn.Do("SET", key, status))
+	return err
+}
 
 func main() {
 	log.Println("Booting Badgeit worker")
@@ -32,6 +50,15 @@ func main() {
 	defer redisConn.Close()
 	log.Println("Initialized Redis Message Queue successfully")
 
+	workerUUID, err := uuid.NewV4()
+	if err != nil {
+		log.Fatalln("Failed to generate workerId", err)
+	}
+	workerID = workerUUID.String()
+	log.Println("worker ID is ", workerID)
+
+	setWorkerStatus(redisConn, statusInitialized)
+
 	listenRedisTaskQueue(redisConn)
 }
 
@@ -39,6 +66,8 @@ func listenRedisTaskQueue(redisConn redis.Conn) {
 	log.Println("==== ==== ==== ====")
 	log.Println("Waiting for message to arrive on badge:worker redis queue")
 	log.Println("==== ==== ==== ====")
+	setWorkerStatus(redisConn, statusWaiting)
+
 	payload, err := redis.Strings(redisConn.Do("BRPOP", "badge:worker", 0))
 	if err != nil {
 		log.Fatalln("Failed to do blocking RPOP on badge:worker", err)
@@ -47,10 +76,61 @@ func listenRedisTaskQueue(redisConn redis.Conn) {
 	taskPayload := payload[1]
 
 	log.Printf("Starting Task for message: %s \n", taskPayload)
-	executeTask([]byte(taskPayload), redisConn)
+	workerTask := newTask([]byte(taskPayload), redisConn)
+	if workerTask != nil {
+		workerTask.removeFromQueuedSet()
+		workerTask.addToProcessingSet()
+		executeTask(workerTask, redisConn)
+		workerTask.removeFromProcessingSet()
+	}
 	log.Printf("Finished Task for message: %s \n", taskPayload)
 
 	listenRedisTaskQueue(redisConn)
+}
+
+type task struct {
+	Remote    string
+	Download  string
+	Callback  string
+	RedisConn redis.Conn
+}
+
+func newTask(message []byte, conn redis.Conn) *task {
+	var t task
+	err := json.Unmarshal(message, &t)
+	if err != nil {
+		log.Println("Error Parsing the payload", err)
+		return nil
+	}
+	t.RedisConn = conn
+	return &t
+}
+
+func (t *task) addToProcessingSet() error {
+	_, err := t.RedisConn.Do("SADD", "badgeit:processingRemotes", t.Remote)
+	if err != nil {
+		log.Println("Error adding remote to processing set", err)
+		return err
+	}
+	return nil
+}
+
+func (t *task) removeFromProcessingSet() error {
+	_, err := t.RedisConn.Do("SREM", "badgeit:processingRemotes", t.Remote)
+	if err != nil {
+		log.Println("Error adding remote to processing set", err)
+		return err
+	}
+	return nil
+}
+
+func (t *task) removeFromQueuedSet() error {
+	_, err := t.RedisConn.Do("SREM", "badgeit:queuedRemotes", t.Remote)
+	if err != nil {
+		log.Println("Error adding remote to processing set", err)
+		return err
+	}
+	return nil
 }
 
 type taskResult struct {
@@ -71,19 +151,8 @@ func (t taskResult) toJSON() (string, error) {
 	return string(jsonPayload), err
 }
 
-func executeTask(message []byte, redisConn redis.Conn) {
-
-	// Parse input message
-	payload := struct {
-		Remote   string
-		Download string
-		Callback string
-	}{}
-	err := json.Unmarshal(message, &payload)
-	if err != nil {
-		log.Printf("Error Parsing the payload %d", err)
-		return
-	}
+func executeTask(payload *task, redisConn redis.Conn) {
+	setWorkerStatus(redisConn, statusProcessing)
 
 	// Create temporary directory for download operation
 	cloneDir := os.Getenv("CLONE_DIR")
