@@ -45,9 +45,10 @@ func listenRedisTaskQueue(redisConn redis.Conn) {
 	}
 	log.Printf("Recieved Payload %+v", payload)
 	taskPayload := payload[1]
-	log.Printf("Starting Task for message: %s", taskPayload)
+
+	log.Printf("Starting Task for message: %s \n", taskPayload)
 	executeTask([]byte(taskPayload), redisConn)
-	log.Printf("Finished Task for message: %s", taskPayload)
+	log.Printf("Finished Task for message: %s \n", taskPayload)
 
 	listenRedisTaskQueue(redisConn)
 }
@@ -58,6 +59,16 @@ type taskResult struct {
 	// TODO: add callback headers
 	Badges []common.Badge
 	Error  string
+}
+
+func (t taskResult) toJSON() (string, error) {
+	jsonPayload, err := json.Marshal(map[string]interface{}{
+		"badges": t.Badges,
+		"error":  t.Error,
+		"remote": t.RemoteURL,
+	})
+
+	return string(jsonPayload), err
 }
 
 func executeTask(message []byte, redisConn redis.Conn) {
@@ -107,26 +118,36 @@ func executeTask(message []byte, redisConn redis.Conn) {
 	callbackResponse.Badges = contracts.PossibleBadges(dir)
 	log.Printf("Detected %d possible badges \n", len(callbackResponse.Badges))
 
+	// send badges to callback URL
+	log.Println("Sending badges to callback URL")
 	err = callback(callbackResponse)
 	if err != nil {
 		log.Println("Error While Posting callback: ", err)
 	}
+	log.Println("Sending attempt to callback URL complete")
+
+	// cache badges
+	log.Println("Attempting to cache badges")
+	jsonPayload, err := callbackResponse.toJSON()
+	if err != nil {
+		log.Println("Error while Marshalling JSON", err)
+		return
+	}
+	_, err = redisConn.Do("SET", fmt.Sprintf("badge:%s", callbackResponse.RemoteURL), jsonPayload)
+	if err != nil {
+		log.Println("Cache Miss with error: ", err)
+	}
+	log.Println("Caching Attempt complete")
 }
 
 func callback(result taskResult) error {
-	if result.Error == "" {
-		log.Println(result.Error)
-	}
-	jsonPayload, err := json.Marshal(map[string]interface{}{
-		"badges": result.Badges,
-		"error":  result.Error,
-		"remote": result.RemoteURL,
-	})
+	jsonPayload, err := result.toJSON()
 	if err != nil {
 		return err
 	}
-	log.Println("Response Payload ", string(jsonPayload))
-	_, err = http.Post(result.CallbackURL, "application/json", strings.NewReader(string(jsonPayload)))
+
+	log.Println("Response Payload ", jsonPayload)
+	_, err = http.Post(result.CallbackURL, "application/json", strings.NewReader(jsonPayload))
 	if err != nil {
 		return err
 	}

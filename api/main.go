@@ -76,13 +76,15 @@ func initAPIServer(redisConn redis.Conn) {
 			return
 		}
 
+		// check for cached data
+		cachedData, _ := redis.String(redisConn.Do("GET", fmt.Sprintf("badge:%s", remote)))
+
 		payload := gin.H{
 			"download": downloadType,
 			"remote":   remote,
 			"callback": callback,
+			"cache":    cachedData,
 		}
-
-		// check for cached data
 
 		// check if worker is already working on badge computation
 
