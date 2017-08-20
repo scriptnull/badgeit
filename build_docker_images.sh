@@ -16,6 +16,6 @@ if [ $WORKER_CHANGED_FILE_COUNT -gt 0 ]; then
     docker build -t "scriptnull/badgeit-worker:$BRANCH.$BUILD_NUMBER" .
     docker images
     docker push scriptnull/badgeit-worker:$BRANCH.$BUILD_NUMBER
-    ./telegram.sh "New Worker image available: scriptnull/badgeit-api:$BRANCH.$BUILD_NUMBER"
+    ./telegram.sh "New Worker image available: scriptnull/badgeit-worker:$BRANCH.$BUILD_NUMBER"
 fi
 
