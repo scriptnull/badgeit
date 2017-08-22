@@ -45,6 +45,14 @@ func initAPIServer(redisConn redis.Conn) {
 		return
 	})
 
+	r.GET("/", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"app": "badgeit-api",
+			"version": "experimental",
+		})
+		return
+	})
+
 	r.GET("/badges", func(c *gin.Context) {
 		downloadType, hasDownloadType := c.GetQuery("download")
 		if !hasDownloadType || downloadType == "" {
