@@ -25,6 +25,9 @@ badge-circle: build
 badge-semaphore: build
 	./badgeit samples/semaphore/valid
 
+badge-codecov: build
+	./badgeit samples/codecov/valid
+
 test-formatters:
 	go test -cover github.com/scriptnull/badgeit/formatters
 
@@ -64,9 +67,16 @@ sample-semaphore-init:
 	mkdir -p samples/semaphore/valid  samples/semaphore/invalid && cd samples/semaphore/valid && git init && git remote add origin git@github.com:argonlaser/badgeit-front.git && \
 	cd ../invalid && git init && git remote add origin git@github.com:scriptnull/compilex.git;
 
-init-samples: sample-github-init sample-gitter-init sample-travis-init sample-circle-init sample-semaphore-init
+sample-codecov-clean:
+	rm -rf samples/codecov
 
-clean-samples: sample-github-clean sample-gitter-clean sample-travis-clean sample-circle-clean sample-semaphore-clean
+sample-codecov-init:
+	mkdir -p samples/codecov/valid  samples/codecov/invalid && cd samples/codecov/valid && git init && git remote add origin git@github.com:sindresorhus/make-dir.git && \
+	cd ../invalid && git init && git remote add origin git@github.com:scriptnull/compilex.git;
+
+init-samples: sample-github-init sample-gitter-init sample-travis-init sample-circle-init sample-semaphore-init sample-codecov-init
+
+clean-samples: sample-github-clean sample-gitter-clean sample-travis-clean sample-circle-clean sample-semaphore-clean sample-codecov-clean
 
 init: init-samples
 
