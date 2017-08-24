@@ -9,6 +9,7 @@ import (
 	"github.com/scriptnull/badgeit/formatters"
 )
 
+// VERSION : Tells the version of badgeit
 const VERSION = "0.1.0"
 
 func main() {
@@ -31,7 +32,7 @@ func main() {
 		path = args[0]
 	}
 
-	// Check Contract aggreement and obtain eligible badges
+	// Check Contract agreement and obtain eligible badges
 	badges := contracts.PossibleBadges(path)
 
 	if len(badges) == 0 {

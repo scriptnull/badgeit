@@ -7,6 +7,7 @@ import (
 	git "gopkg.in/src-d/go-git.v4"
 )
 
+// GithubRepo : Contains the parsed github URL details
 type GithubRepo struct {
 	Username string
 	RepoName string
@@ -14,6 +15,7 @@ type GithubRepo struct {
 	URL      string
 }
 
+// GetGithubRepos : Function to parse the github repo
 func GetGithubRepos(path string) (githubRepos []GithubRepo) {
 	repo, err := git.PlainOpen(path)
 	if err != nil {
