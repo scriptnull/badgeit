@@ -35,6 +35,10 @@ func PossibleBadges(path string) []common.Badge {
 	if err == nil {
 		badges = append(badges, semaphoreBadges...)
 	}
+	codecovBadges, err := NewCodecovBadgeContract(path).Badges()
+	if err == nil {
+		badges = append(badges, codecovBadges...)
+	}
 
 	return badges
 }
