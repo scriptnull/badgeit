@@ -32,7 +32,7 @@ func (contract CodeclimateBadgeContract) Badges() ([]common.Badge, error) {
 	// version
 	for _, repo := range repos {
 		versionBadge := &common.Badge{
-			Name:     "Code climate",
+			Name:     "Code Climate",
 			ImageURL: fmt.Sprintf("%s/%s.svg", codeclimateBadgesURL, repo.Slug),
 			LinkURL:  fmt.Sprintf("%s/%s", codeclimateURL, repo.Slug),
 			Tags:     []string{"version"},
@@ -69,6 +69,6 @@ func (contract CodeclimateBadgeContract) Badges() ([]common.Badge, error) {
 		badges[i].Group = "codeclimate"
 		badges[i].Tags = append(badges[i].Tags, commonTags...)
 	}
-	
+
 	return badges, nil
 }

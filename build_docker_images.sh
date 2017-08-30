@@ -1,3 +1,4 @@
+
 API_CHANGED_FILE_COUNT=`git diff --name-only HEAD~1..HEAD api/ | wc -l`;
 WORKER_CHANGED_FILE_COUNT=`git diff --name-only HEAD~1..HEAD worker/ contracts/ common/ formatters/ | wc -l`;
 
