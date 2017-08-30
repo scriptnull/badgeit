@@ -31,6 +31,9 @@ badge-codecov: build
 badge-coveralls: build
 	./badgeit samples/coveralls/valid
 
+badge-codeclimate: build
+	./badgeit samples/codeclimate/valid
+
 test-formatters:
 	go test -cover github.com/scriptnull/badgeit/formatters
 
@@ -84,9 +87,16 @@ sample-coveralls-init:
 	mkdir -p samples/coveralls/valid  samples/coveralls/invalid && cd samples/coveralls/valid && git init && git remote add origin git@github.com:sindresorhus/xo.git && \
 	cd ../invalid && git init && git remote add origin git@github.com:argonlaser/hangman-game.git;
 
-init-samples: sample-github-init sample-gitter-init sample-travis-init sample-circle-init sample-semaphore-init sample-codecov-init sample-coveralls-init
+sample-codeclimate-clean:
+	rm -rf samples/codeclimate
 
-clean-samples: sample-github-clean sample-gitter-clean sample-travis-clean sample-circle-clean sample-semaphore-clean sample-codecov-clean sample-coveralls-clean
+sample-codeclimate-init:
+	mkdir -p samples/codeclimate/valid  samples/codeclimate/invalid && cd samples/codeclimate/valid && git init && git remote add origin git@github.com:codeclimate/javascript-test-reporter.git && \
+	cd ../invalid && git init && git remote add origin git@github.com:argonlaser/array_rand.git;
+
+init-samples: sample-github-init sample-gitter-init sample-travis-init sample-circle-init sample-semaphore-init sample-codecov-init sample-coveralls-init sample-codeclimate-init
+
+clean-samples: sample-github-clean sample-gitter-clean sample-travis-clean sample-circle-clean sample-semaphore-clean sample-codecov-clean sample-coveralls-clean sample-codeclimate-clean
 
 init: init-samples
 
