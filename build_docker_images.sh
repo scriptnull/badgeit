@@ -3,7 +3,8 @@ set -e
 
 if [ "$IS_PULL_REQUEST" == true ]
 then
-exit 0
+    echo "Skipping building of image for PRs"
+    exit 0
 fi
 
 API_CHANGED_FILE_COUNT=`git diff --name-only HEAD~1..HEAD api/ | wc -l`;
@@ -18,7 +19,7 @@ if [ $API_CHANGED_FILE_COUNT -gt 0 ]; then
     ./telegram.sh "New API image available: scriptnull/badgeit-api:$BRANCH.$BUILD_NUMBER"
 fi
 
-if [ $WORKER_CHANGED_FILE_COUNT -gt 0 ]; then
+if [ $WORKER_CHANGED_FILE_COUNT -gt 0 || $FORCE_WORKER_BUILD == true ]; then
     echo "Worker has changes"
     # Build binary and worker
     docker build -t "scriptnull/badgeit-worker:$BRANCH.$BUILD_NUMBER" .
@@ -26,4 +27,6 @@ if [ $WORKER_CHANGED_FILE_COUNT -gt 0 ]; then
     docker push scriptnull/badgeit-worker:$BRANCH.$BUILD_NUMBER
     ./telegram.sh "New Worker image available: scriptnull/badgeit-worker:$BRANCH.$BUILD_NUMBER"
 fi
+
+echo "Build Image script End"
 
