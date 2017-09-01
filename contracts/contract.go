@@ -43,6 +43,9 @@ func PossibleBadges(path string) []common.Badge {
 	if err == nil {
 		badges = append(badges, coverallsBadges...)
 	}
-
+	codeclimateBadges, err := NewCodeclimateBadgeContract(path).Badges()
+	if err == nil {
+		badges = append(badges, codeclimateBadges...)
+	}
 	return badges
 }
