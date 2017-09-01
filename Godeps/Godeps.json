@@ -260,6 +260,55 @@
 			"ImportPath": "gopkg.in/warnings.v0",
 			"Comment": "v0.1.1",
 			"Rev": "8a331561fe74dadba6edfc59f3be66c22c3b065d"
+		},
+		{
+			"ImportPath": "gopkg.in/src-d/go-billy.v3",
+			"Comment": "v3.1.0",
+			"Rev": "c329b7bc7b9d24905d2bc1b85bfa29f7ae266314"
+		},
+		{
+			"ImportPath": "gopkg.in/src-d/go-billy.v3/osfs",
+			"Comment": "v3.1.0",
+			"Rev": "c329b7bc7b9d24905d2bc1b85bfa29f7ae266314"
+		},
+		{
+			"ImportPath": "gopkg.in/src-d/go-billy.v3/util",
+			"Comment": "v3.1.0",
+			"Rev": "c329b7bc7b9d24905d2bc1b85bfa29f7ae266314"
+		},
+		{
+			"ImportPath": "gopkg.in/src-d/go-billy.v3/helper/chroot",
+			"Comment": "v3.1.0",
+			"Rev": "c329b7bc7b9d24905d2bc1b85bfa29f7ae266314"
+		},
+		{
+			"ImportPath": "github.com/jbenet/go-context/io",
+			"Rev": "d14ea06fba99483203c19d92cfcd13ebe73135f4"
+		},
+		{
+			"ImportPath": "golang.org/x/text/unicode/norm",
+			"Rev": "bd91bbf73e9a4a801adbfb97133c992678533126"
+		},
+		{
+			"ImportPath": "gopkg.in/src-d/go-billy.v3/helper/polyfill",
+			"Comment": "v3.1.0",
+			"Rev": "c329b7bc7b9d24905d2bc1b85bfa29f7ae266314"
+		},
+		{
+			"ImportPath": "github.com/mitchellh/go-homedir",
+			"Rev": "b8bc1bf767474819792c23f32d8286a45736f1c6"
+		},
+		{
+			"ImportPath": "github.com/xanzy/ssh-agent",
+			"Rev": "ba9c9e33906f58169366275e3450db66139a31a9"
+		},
+		{
+			"ImportPath": "golang.org/x/net/context",
+			"Rev": "66aacef3dd8a676686c7ae3716979581e8b03c47"
+		},
+		{
+			"ImportPath": "golang.org/x/text/transform",
+			"Rev": "bd91bbf73e9a4a801adbfb97133c992678533126"
 		}
 	]
 }
