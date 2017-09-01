@@ -29,7 +29,7 @@ func GetGithubRepos(path string) (githubRepos []GithubRepo) {
 	for _, remote := range remotes {
 		err = remote.Config().Validate()
 		if err == nil {
-			url := remote.Config().URL
+			url := remote.Config().URLs[0]
 			trimmedURL := strings.TrimSuffix(url, ".git")
 
 			var repoSlug string
