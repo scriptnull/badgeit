@@ -12,8 +12,7 @@ Thanks for your interest in contributing to badgeit.
 git clone git@github.com:scriptnull/badgeit.git
 cd badgeit
 make init
-go get github.com/tools/godep
-godep restore
+go get -v ./...
 ```
 
 #### Build

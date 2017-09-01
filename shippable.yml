@@ -15,8 +15,6 @@ build:
     - ls
     - pwd
     - make init
-    - go get github.com/tools/godep
-    # - godep restore
     - go get -v ./...
     - make test-formatters
     - make test-contracts
