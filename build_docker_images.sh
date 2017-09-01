@@ -32,7 +32,8 @@ if [ $WORKER_CHANGED_FILE_COUNT -gt 0 ]; then
     build_worker
 fi
 
-if [ $FORCE_WORKER_BUILD == true ]; then
+if [ "$FORCE_WORKER_BUILD" == "true" ]
+then
     echo "FORCE_WORKER_BUILD: $FORCE_WORKER_BUILD"
     build_worker
 fi
