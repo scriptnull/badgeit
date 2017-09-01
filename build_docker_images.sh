@@ -1,3 +1,10 @@
+#!/bin/bash
+set -e
+
+if [ "$IS_PULL_REQUEST" == true ]
+then
+exit 0
+fi
 
 API_CHANGED_FILE_COUNT=`git diff --name-only HEAD~1..HEAD api/ | wc -l`;
 WORKER_CHANGED_FILE_COUNT=`git diff --name-only HEAD~1..HEAD worker/ contracts/ common/ formatters/ | wc -l`;

@@ -19,8 +19,7 @@ build:
     - godep restore
     - make test-formatters
     - make test-contracts
-    # Build binary, worker and api
-    - if [ "$IS_PULL_REQUEST" == false ]; then ./build_docker_images.sh; fi
+    - ./build_docker_images.sh
 
   on_success:
     - ./telegram.sh " -- Repository - $SHIPPABLE_REPO_SLUG \n -- Build - $BUILD_NUMBER \n -- Link - $BUILD_URL \n -- Status - PASSED"
