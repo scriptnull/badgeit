@@ -16,7 +16,8 @@ build:
     - pwd
     - make init
     - go get github.com/tools/godep
-    - godep restore
+    # - godep restore
+    - go get -v ./...
     - make test-formatters
     - make test-contracts
     - ./build_docker_images.sh
