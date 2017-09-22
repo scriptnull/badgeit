@@ -22,3 +22,4 @@ prod.md
 samples/travis
 samples/circle
 storage/
+.DS_Store
